@@ -1,10 +1,20 @@
+import { Route, Routes } from 'react-router-dom';
+import StartPage from './pages/StartPage';
+import ConfirmationPage from './pages/ConfirmationPage';
+import Header from './components/Header';
 type Props = {};
 
 const App = (props: Props) => {
   return (
-    <div>
-      <h1>App</h1>
-    </div>
+    <>
+      <Header />
+      <main>
+        <Routes>
+          <Route path="/" element={<StartPage />} />
+          <Route path="/confirmation" element={<ConfirmationPage />} />
+        </Routes>
+      </main>
+    </>
   );
 };
 
