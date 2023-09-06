@@ -20,7 +20,11 @@ const Modal = ({ toggleModal }: Props) => {
   return (
     <div className="modal-background" onClick={e => handleBackgroundClick(e)}>
       <div className="modal-wrapper">
-        {showLogIn ? <LoginForm toggleModal={toggleModal} /> : <RegisterForm />}
+        {showLogIn ? (
+          <LoginForm toggleModal={toggleModal} />
+        ) : (
+          <RegisterForm toggleModal={toggleModal} />
+        )}
 
         {showLogIn ? (
           <a href="#" onClick={toggleShowLogIn}>
