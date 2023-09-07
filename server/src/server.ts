@@ -1,22 +1,23 @@
 import dotenv from 'dotenv';
 dotenv.config();
-import express, { Express, Request, Response } from 'express';
+import express, { Express } from 'express';
 import cors from 'cors';
-import Stripe from 'stripe';
+//import Stripe from 'stripe';
 import cookieSession from 'cookie-session';
 
-import customerRouter from './src/routes/customer-router';
+import customerRouter from './routes/customer-router';
+import path from 'path';
 
-const STRIPE_SECRET_KEY: string | undefined = process.env.STRIPE_SECRET_KEY;
+//const STRIPE_SECRET_KEY: string | undefined = process.env.STRIPE_SECRET_KEY;
 const CLIENT_URL = process.env.CLIENT_URL;
 const PORT: string = process.env.port || '3000';
-
+export const rootPath = path.dirname(__dirname);
 const app: Express = express();
 
-let stripe: Stripe;
-if (STRIPE_SECRET_KEY) {
-  stripe = new Stripe(STRIPE_SECRET_KEY, { apiVersion: '2023-08-16' });
-}
+// let stripe: Stripe;
+// if (STRIPE_SECRET_KEY) {
+//   stripe = new Stripe(STRIPE_SECRET_KEY, { apiVersion: '2023-08-16' });
+// }
 
 // Middlewares
 app.use(
@@ -30,7 +31,7 @@ app.use(
 app.use(
   cookieSession({
     name: 'session',
-    keys: ['aVeryS3cr3tK3y'],
+    secret: process.env.COOKIE_SECRET,
     maxAge: 1000 * 60 * 60 * 24, // 24 Hours
     sameSite: 'strict',
     httpOnly: true,
