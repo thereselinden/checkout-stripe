@@ -23,7 +23,10 @@ const Modal = ({ toggleModal }: Props) => {
         {showLogIn ? (
           <LoginForm toggleModal={toggleModal} />
         ) : (
-          <RegisterForm toggleModal={toggleModal} />
+          <RegisterForm
+            toggleModal={toggleModal}
+            toggleShowLogin={toggleShowLogIn}
+          />
         )}
 
         {showLogIn ? (
