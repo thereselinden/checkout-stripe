@@ -1,30 +1,43 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import InputField from './InputField';
 import Button from './Button';
+import { useCustomerContext } from '../context/CustomerContext';
+import { IRegisterForm } from '../interfaces/interfaces';
 
-type Props = {};
+type Props = {
+  toggleModal: () => void;
+  toggleShowLogin: () => void;
+};
 
-const RegisterForm = (props: Props) => {
-  const [formFields, setFormFields] = useState({
-    firstName: '',
-    lastName: '',
+const RegisterForm = ({ toggleModal, toggleShowLogin }: Props) => {
+  const [formFields, setFormFields] = useState<IRegisterForm>({
+    firstname: '',
+    lastname: '',
     email: '',
     password: '',
   });
 
-  const handleRegisterForm = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const { registerCustomer, registerSuccess } = useCustomerContext();
+
+  // TODO Har redan lagt toggleModal i useCallback, men verkar inte känna av det
+  useEffect(() => {
+    if (registerSuccess) toggleModal();
+  }, [registerSuccess]);
+
+  const handleRegisterForm = () => {
+    registerCustomer(formFields);
+    toggleShowLogin();
   };
 
   return (
-    <form onSubmit={e => handleRegisterForm(e)}>
+    <div>
       <label htmlFor="firstName">Firstname</label>
       <InputField
         type="text"
         required
-        value={formFields.firstName}
+        value={formFields.firstname}
         onChange={e =>
-          setFormFields({ ...formFields, firstName: e.target.value })
+          setFormFields({ ...formFields, firstname: e.target.value })
         }
         name="firstName"
       />
@@ -32,9 +45,9 @@ const RegisterForm = (props: Props) => {
       <InputField
         type="text"
         required
-        value={formFields.lastName}
+        value={formFields.lastname}
         onChange={e =>
-          setFormFields({ ...formFields, lastName: e.target.value })
+          setFormFields({ ...formFields, lastname: e.target.value })
         }
         name="lastName"
         autofocus={false}
@@ -59,8 +72,17 @@ const RegisterForm = (props: Props) => {
         }
         autofocus={false}
       />
-      <Button text="Create Account" />
-    </form>
+      <Button
+        text="Create Account"
+        disabled={
+          !formFields.firstname ||
+          !formFields.lastname ||
+          !formFields.email ||
+          !formFields.password
+        }
+        onClick={handleRegisterForm}
+      />
+    </div>
   );
 };
 
