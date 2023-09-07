@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { BsCart2 } from 'react-icons/bs';
 import { AiOutlineLogin } from 'react-icons/ai';
 import { CgProfile } from 'react-icons/cg';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import Modal from './Modal';
 import Button from './Button';
 
@@ -12,9 +12,9 @@ const Header = (props: Props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const toggleModal = () => {
+  const toggleModal = useCallback(() => {
     setIsModalOpen(!isModalOpen);
-  };
+  }, [isModalOpen]);
 
   const handleCart = () => {};
   return (
