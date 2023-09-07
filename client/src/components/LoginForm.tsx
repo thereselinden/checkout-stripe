@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import InputField from './InputField';
 import Button from './Button';
 
@@ -10,16 +10,33 @@ const LoginForm = ({ toggleModal }: Props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleLogin = async (): Promise<void> => {
     console.log('logged in');
     // create fetch and pass state as an object
+    try {
+      const user = {
+        email,
+        password,
+      };
+
+      const response = await fetch('http://localhost:3000/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(user),
+        credentials: 'include', // varför behöver jag denna?
+      });
+
+      const data = await response.json();
+      console.log('login fetch ', data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
     <>
       <h2>Log in</h2>
-      <form onSubmit={handleLogin}>
+      <div>
         <InputField
           type="email"
           value={email}
@@ -46,9 +63,13 @@ const LoginForm = ({ toggleModal }: Props) => {
             onClick={() => toggleModal()}
             disabled={false}
           />
-          <Button text="Login" disabled={!email || !password} />
+          <Button
+            text="Login"
+            disabled={!email || !password}
+            onClick={handleLogin}
+          />
         </div>
-      </form>
+      </div>
     </>
   );
 };
