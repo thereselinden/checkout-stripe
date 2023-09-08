@@ -1,7 +1,6 @@
-import { FormEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import InputField from './InputField';
 import Button from './Button';
-import { useCustomerContext } from '../context/CustomerContext';
 import { IRegisterForm } from '../interfaces/interfaces';
 
 type Props = {
@@ -16,17 +15,41 @@ const RegisterForm = ({ toggleModal, toggleShowLogin }: Props) => {
     email: '',
     password: '',
   });
-
-  const { registerCustomer, registerSuccess } = useCustomerContext();
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [registerSuccess, setRegisterSuccess] = useState(false);
 
   // TODO Har redan lagt toggleModal i useCallback, men verkar inte känna av det
   useEffect(() => {
     if (registerSuccess) toggleModal();
   }, [registerSuccess]);
 
-  const handleRegisterForm = () => {
-    registerCustomer(formFields);
-    toggleShowLogin();
+  const handleRegisterCustomer = async (): Promise<void> => {
+    setIsLoading(true);
+    setErrorMsg(null);
+    try {
+      const response = await fetch(
+        'http://localhost:3000/api/customer/register',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formFields),
+        }
+      );
+      const data = await response.json();
+
+      if (response.ok) {
+        setRegisterSuccess(true);
+        setErrorMsg(null);
+        toggleShowLogin();
+      } else {
+        setErrorMsg(data.message);
+      }
+      setIsLoading(false);
+    } catch (err: any) {
+      setErrorMsg((err as Error).message);
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -80,8 +103,10 @@ const RegisterForm = ({ toggleModal, toggleShowLogin }: Props) => {
           !formFields.email ||
           !formFields.password
         }
-        onClick={handleRegisterForm}
+        onClick={handleRegisterCustomer}
       />
+      {isLoading && <p>Loading....</p>}
+      {errorMsg && <p>{errorMsg}</p>}
     </div>
   );
 };
