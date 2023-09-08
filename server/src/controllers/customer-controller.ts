@@ -50,6 +50,13 @@ export const register = async (req: Request, res: Response) => {
       });
     }
 
+    // TODO kolla att stripe reg gick bra
+    console.log('stripecustomer', stripeCustomer);
+    if (!stripeCustomer?.id)
+      return res
+        .status(400)
+        .json({ message: 'Could not create customer on stripe' });
+
     // update newUser obj with id after stripe customer created
     newUser = { ...newUser, id: stripeCustomer?.id };
 
@@ -68,6 +75,7 @@ export const register = async (req: Request, res: Response) => {
 };
 
 export const login = async (req: Request, res: Response) => {
+  console.log('login', req.body);
   try {
     const { email, password } = req.body;
     const dataFilePath = `${rootPath}/data/users.json`;
@@ -86,9 +94,8 @@ export const login = async (req: Request, res: Response) => {
       registeredUser.password
     );
 
-    if (!registeredUser || !isPasswordCorrect) {
-      return res.status(404).json({ message: 'Wrong credentials' });
-    }
+    if (!registeredUser || !isPasswordCorrect)
+      res.status(404).json({ message: 'Wrong credentials' });
 
     const user: IUserWithoutPass = {
       id: registeredUser.id,
@@ -98,7 +105,6 @@ export const login = async (req: Request, res: Response) => {
     };
 
     req.session = user;
-    console.log('req session login', req.session);
     res.status(200).json(user);
   } catch (err) {
     console.log(err);
