@@ -1,20 +1,26 @@
 import { Link } from 'react-router-dom';
 import { BsCart2 } from 'react-icons/bs';
 import { AiOutlineLogin } from 'react-icons/ai';
+import { BiLogOutCircle } from 'react-icons/bi';
 import { CgProfile } from 'react-icons/cg';
 import { useCallback, useState } from 'react';
 import Modal from './Modal';
 import Button from './Button';
+import { useCustomerContext } from '../context/CustomerContext';
 
 type Props = {};
 
 const Header = (props: Props) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isLoggedIn, logout } = useCustomerContext();
 
   const toggleModal = useCallback(() => {
     setIsModalOpen(!isModalOpen);
   }, [isModalOpen]);
+
+  const handleLogout = () => {
+    logout();
+  };
 
   const handleCart = () => {};
   return (
@@ -32,7 +38,15 @@ const Header = (props: Props) => {
           />
 
           {isLoggedIn ? (
-            <Button Icon={CgProfile} disabled={false} type="button" />
+            <>
+              <Button Icon={CgProfile} disabled={false} type="button" />
+              <Button
+                Icon={BiLogOutCircle}
+                disabled={false}
+                type="button"
+                onClick={handleLogout}
+              />
+            </>
           ) : (
             <Button
               Icon={AiOutlineLogin}
