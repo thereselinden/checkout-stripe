@@ -5,3 +5,10 @@ export interface IUser {
   password: string;
   id?: string;
 }
+
+export interface IUserWithoutPass {
+  firstname: string;
+  lastname: string;
+  email: string;
+  id?: string;
+}
