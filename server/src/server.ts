@@ -2,28 +2,21 @@ import dotenv from 'dotenv';
 dotenv.config();
 import express, { Express } from 'express';
 import cors from 'cors';
-//import Stripe from 'stripe';
 import cookieSession from 'cookie-session';
-
-import customerRouter from './routes/customer-router';
 import path from 'path';
 
-//const STRIPE_SECRET_KEY: string | undefined = process.env.STRIPE_SECRET_KEY;
+import customerRouter from './routes/customer-router';
+
 const CLIENT_URL = process.env.CLIENT_URL;
 const PORT: string = process.env.port || '3000';
-export const rootPath = path.dirname(__dirname);
 const app: Express = express();
-
-// let stripe: Stripe;
-// if (STRIPE_SECRET_KEY) {
-//   stripe = new Stripe(STRIPE_SECRET_KEY, { apiVersion: '2023-08-16' });
-// }
+export const rootPath = path.dirname(__dirname);
 
 // Middlewares
 app.use(
   cors({
     origin: CLIENT_URL,
-    //origin: '*',
+    //origin: true,
     credentials: true,
   })
 );
@@ -40,7 +33,7 @@ app.use(
 );
 
 app.use(express.json());
-app.use('/api', customerRouter);
+app.use('/api/customer', customerRouter);
 
 // app.post('/test', async (req: Request, res: Response) => {
 //   console.log(req.body);
