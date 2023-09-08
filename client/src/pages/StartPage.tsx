@@ -1,3 +1,4 @@
+import ProductList from '../components/ProductList';
 import { useCustomerContext } from '../context/CustomerContext';
 
 type Props = {};
@@ -8,6 +9,7 @@ const StartPage = (props: Props) => {
   return (
     <div>
       <h1>StartPage</h1>
+      <ProductList />
       {isLoggedIn && (
         <>
           <p>Hello {user.firstname}</p>
