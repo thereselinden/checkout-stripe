@@ -16,7 +16,7 @@ export const rootPath = path.dirname(__dirname);
 app.use(
   cors({
     origin: CLIENT_URL,
-    //origin: true,
+    //origin: '*',
     credentials: true,
   })
 );
@@ -28,7 +28,7 @@ app.use(
     maxAge: 1000 * 60 * 60 * 24, // 24 Hours
     sameSite: 'strict',
     httpOnly: true,
-    secure: false,
+    //secure: false,
   })
 );
 
