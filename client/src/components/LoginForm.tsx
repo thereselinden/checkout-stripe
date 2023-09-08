@@ -12,8 +12,7 @@ const LoginForm = ({ toggleModal }: Props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { login, user, errorMsg, isLoggedIn } = useCustomerContext();
-  console.log('user', user);
+  const { login, errorMsg, isLoggedIn } = useCustomerContext();
 
   useEffect(() => {
     if (isLoggedIn) toggleModal();
