@@ -4,3 +4,15 @@ export interface IRegisterForm {
   email: string;
   password: string;
 }
+
+export interface ILoginForm {
+  email: string;
+  password: string;
+}
+
+export interface IUser {
+  firstname: string;
+  lastname: string;
+  email: string;
+  id: string;
+}
