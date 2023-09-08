@@ -44,7 +44,7 @@ const CustomerContextProvider = ({ children }: PropsWithChildren) => {
           setIsLoading(false);
         } else {
           setIsLoggedIn(false);
-          setErrorMsg(data.message);
+          // setErrorMsg(data.message);
           setIsLoading(false);
         }
       } catch (err) {
@@ -56,6 +56,7 @@ const CustomerContextProvider = ({ children }: PropsWithChildren) => {
   }, []);
 
   const login = async (credentials: ILoginForm): Promise<void> => {
+    console.log(credentials);
     setIsLoading(true);
     setErrorMsg(null);
     try {
