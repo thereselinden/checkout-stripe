@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import fs from 'fs/promises';
-import { IUser } from '../interfaces/interface';
+import { IUser, IUserWithoutPass } from '../interfaces/interface';
 import { initStripe } from '../stripe/stripe';
 import Stripe from 'stripe';
 import { rootPath } from '../server';
@@ -25,44 +25,36 @@ export const register = async (req: Request, res: Response) => {
     let users: IUser[] = [];
 
     const dataFilePath = `${rootPath}/data/users.json`;
-    console.log('dataFilePath', dataFilePath);
 
     // Read current filedata
     const filedata = await fs.readFile(dataFilePath);
 
     // check if file contains data, update users array with that data
     if (filedata.length > 1) {
-      // convert to string before parsing
+      // convert from buffer to string before parsing
       const fileContent = filedata.toString();
       users = JSON.parse(fileContent);
     }
 
-    console.log('users', users);
-
     // check if req body email already exist in list
-    if (users.some(user => user.email === email))
-      throw new Error('User already exist');
+    if (users.some(user => user.email === email)) {
+      return res.status(409).json({ message: 'Email already registered' });
+    }
 
-    // create the customer at Stripe
+    // create the customer on Stripe
     let stripeCustomer: Stripe.Response<Stripe.Customer> | undefined;
     if (stripe) {
-      stripeCustomer = await stripe?.customers.create({
+      stripeCustomer = await stripe.customers.create({
         name: `${firstname} ${lastname}`,
         email,
       });
     }
-    // const stripeCustomer = await stripe?.customers.create({
-    //   name: `${firstname} ${lastname}`,
-    //   email,
-    // });
 
     // update newUser obj with id after stripe customer created
     newUser = { ...newUser, id: stripeCustomer?.id };
 
     // add newUser obj to users array
     users.push(newUser);
-
-    console.log('users after push', users);
 
     // add users array to json file
     await fs.writeFile(dataFilePath, JSON.stringify(users, null, 2));
@@ -76,18 +68,60 @@ export const register = async (req: Request, res: Response) => {
 };
 
 export const login = async (req: Request, res: Response) => {
-  console.log('login body', req.body);
   try {
     const { email, password } = req.body;
+    const dataFilePath = `${rootPath}/data/users.json`;
+    const fileData = await fs.readFile(dataFilePath);
+    const fileContent = fileData.toString();
 
-    const user = {
-      email,
+    const users = JSON.parse(fileContent);
+
+    // see if email is an registered user
+    let registeredUser: IUser = users.find(
+      (user: IUser) => user.email === email
+    );
+
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      registeredUser.password
+    );
+
+    if (!registeredUser || !isPasswordCorrect) {
+      return res.status(404).json({ message: 'Wrong credentials' });
+    }
+
+    const user: IUserWithoutPass = {
+      id: registeredUser.id,
+      firstname: registeredUser.firstname,
+      lastname: registeredUser.lastname,
+      email: registeredUser.email,
     };
 
     req.session = user;
-    console.log('req.session', req.session);
+    console.log('req session login', req.session);
     res.status(200).json(user);
   } catch (err) {
     console.log(err);
+    res.status(400).json({ message: 'Could not login' });
+  }
+};
+
+export const logout = async (req: Request, res: Response) => {
+  if (!req.session?.id) {
+    return res.status(400).json({ message: 'Already logged out' });
+  }
+  req.session = null;
+  res.status(200).json(null);
+};
+
+export const authorize = async (req: Request, res: Response) => {
+  try {
+    if (!req.session?.id) {
+      return res.status(401).json({ message: 'User is not logged in' });
+    }
+
+    res.status(200).json(req.session);
+  } catch (err) {
+    return res.status(400).json({ message: err });
   }
 };
