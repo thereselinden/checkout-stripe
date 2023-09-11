@@ -42,8 +42,9 @@ const Header = (props: Props) => {
           <p className="number-cart-items">
             {numCartItems > 0 && numCartItems}
           </p>
-          <Button Icon={BsCart2} disabled={false} type="button" />
-
+          <Link to="/cart">
+            <Button Icon={BsCart2} disabled={false} type="button" />
+          </Link>
           {isLoggedIn ? (
             <>
               <Button Icon={CgProfile} disabled={false} type="button" />
