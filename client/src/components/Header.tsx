@@ -7,12 +7,17 @@ import { useCallback, useState } from 'react';
 import Modal from './Modal';
 import Button from './Button';
 import { useCustomerContext } from '../context/CustomerContext';
+import { ICartItem } from '../interfaces/interfaces';
 
 type Props = {};
 
 const Header = (props: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { isLoggedIn, logout } = useCustomerContext();
+
+  let cartQuantity: number = 0;
+  const cartItems = JSON.parse(localStorage.getItem('cart'));
+  cartItems.forEach((item: ICartItem) => (cartQuantity += item.quantity));
 
   const toggleModal = useCallback(() => {
     setIsModalOpen(!isModalOpen);
@@ -22,7 +27,6 @@ const Header = (props: Props) => {
     logout();
   };
 
-  const handleCart = () => {};
   return (
     <>
       <header>
@@ -30,12 +34,7 @@ const Header = (props: Props) => {
           <h2>WebShop</h2>
         </Link>
         <div>
-          <Button
-            Icon={BsCart2}
-            disabled={false}
-            onClick={handleCart}
-            type="button"
-          />
+          <Button Icon={BsCart2} disabled={false} type="button" />
 
           {isLoggedIn ? (
             <>
