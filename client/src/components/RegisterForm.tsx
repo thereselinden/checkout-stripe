@@ -1,14 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import InputField from './InputField';
 import Button from './Button';
 import { IRegisterForm } from '../interfaces/interfaces';
 
 type Props = {
-  toggleModal: () => void;
   toggleShowLogin: () => void;
 };
 
-const RegisterForm = ({ toggleModal, toggleShowLogin }: Props) => {
+const RegisterForm = ({ toggleShowLogin }: Props) => {
   const [formFields, setFormFields] = useState<IRegisterForm>({
     firstname: '',
     lastname: '',
@@ -17,12 +16,6 @@ const RegisterForm = ({ toggleModal, toggleShowLogin }: Props) => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [registerSuccess, setRegisterSuccess] = useState(false);
-
-  // TODO Har redan lagt toggleModal i useCallback, men verkar inte känna av det
-  useEffect(() => {
-    if (registerSuccess) toggleModal();
-  }, [registerSuccess]);
 
   const handleRegisterCustomer = async (): Promise<void> => {
     setIsLoading(true);
@@ -39,7 +32,6 @@ const RegisterForm = ({ toggleModal, toggleShowLogin }: Props) => {
       const data = await response.json();
 
       if (response.ok) {
-        setRegisterSuccess(true);
         setErrorMsg(null);
         toggleShowLogin();
       } else {
