@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { ICartItem, IProduct } from '../interfaces/interfaces';
+import { IProduct } from '../interfaces/interfaces';
 import { formatPrice } from '../utils/helpers';
 import Button from './Button';
 
