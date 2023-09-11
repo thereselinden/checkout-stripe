@@ -4,15 +4,13 @@ import Button from './Button';
 import { useCustomerContext } from '../context/CustomerContext';
 import { ILoginForm } from '../interfaces/interfaces';
 
-type Props = {
-  toggleModal: () => void;
-};
+type Props = {};
 
-const LoginForm = ({ toggleModal }: Props) => {
+const LoginForm = (props: Props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { login, errorMsg, isLoggedIn } = useCustomerContext();
+  const { login, errorMsg, isLoggedIn, toggleModal } = useCustomerContext();
 
   useEffect(() => {
     if (isLoggedIn) toggleModal();

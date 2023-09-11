@@ -1,6 +1,7 @@
 import {
   PropsWithChildren,
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useState,
@@ -21,9 +22,14 @@ const CustomerContextProvider = ({ children }: PropsWithChildren) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [user, setUser] = useState<IUser | null>(null);
 
   const navigate = useNavigate();
+
+  const toggleModal = useCallback(() => {
+    setIsModalOpen(!isModalOpen);
+  }, [isModalOpen]);
 
   useEffect(() => {
     const isAlreadyLoggedIn = async (): Promise<void> => {
@@ -36,7 +42,6 @@ const CustomerContextProvider = ({ children }: PropsWithChildren) => {
             credentials: 'include',
           }
         );
-        console.log('response', response);
         const data = await response.json();
         if (response.ok) {
           setUser(data);
@@ -44,7 +49,6 @@ const CustomerContextProvider = ({ children }: PropsWithChildren) => {
           setIsLoading(false);
         } else {
           setIsLoggedIn(false);
-          // setErrorMsg(data.message);
           setIsLoading(false);
         }
       } catch (err) {
@@ -56,7 +60,6 @@ const CustomerContextProvider = ({ children }: PropsWithChildren) => {
   }, []);
 
   const login = async (credentials: ILoginForm): Promise<void> => {
-    console.log(credentials);
     setIsLoading(true);
     setErrorMsg(null);
     try {
@@ -100,7 +103,16 @@ const CustomerContextProvider = ({ children }: PropsWithChildren) => {
 
   return (
     <CustomerContext.Provider
-      value={{ login, isLoggedIn, errorMsg, isLoading, user, logout }}
+      value={{
+        login,
+        isLoggedIn,
+        errorMsg,
+        isLoading,
+        user,
+        logout,
+        toggleModal,
+        isModalOpen,
+      }}
     >
       {children}
     </CustomerContext.Provider>

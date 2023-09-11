@@ -16,3 +16,19 @@ export interface IUser {
   email: string;
   id: string;
 }
+
+export interface IProduct {
+  id: string;
+  images: string[];
+  name: string;
+  description: string;
+  default_price: {
+    currency: string;
+    unit_amount: number;
+  };
+}
+
+export interface ICartItem {
+  product: IProduct;
+  quantity: number;
+}

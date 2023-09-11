@@ -95,7 +95,7 @@ export const login = async (req: Request, res: Response) => {
     );
 
     if (!registeredUser || !isPasswordCorrect)
-      res.status(404).json({ message: 'Wrong credentials' });
+      return res.status(404).json({ message: 'Wrong credentials' });
 
     const user: IUserWithoutPass = {
       id: registeredUser.id,
