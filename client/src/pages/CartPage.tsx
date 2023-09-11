@@ -4,15 +4,35 @@ import { useCartContext } from '../context/CartContext';
 import { useCustomerContext } from '../context/CustomerContext';
 import { ICartItem } from '../interfaces/interfaces';
 import { formatPrice, totalPrice } from '../utils/helpers';
+
 type Props = {};
 
 const CartPage = (props: Props) => {
   const { isLoggedIn, toggleModal } = useCustomerContext();
-  const { cartItems } = useCartContext();
+  const { cartItems, setCartItems } = useCartContext();
   const navigate = useNavigate();
 
-  const handleCheckout = () => {
-    console.log('checkout button clicked');
+  console.log('cartItems', cartItems);
+
+  const handleCheckout = async () => {
+    try {
+      const response = await fetch(
+        'http://localhost:3000/api/checkout/create-checkout-session',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(cartItems),
+        }
+      );
+      const data = await response.json();
+      window.location.replace(data.url);
+      setCartItems([]);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleLogin = () => {
