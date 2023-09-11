@@ -13,9 +13,9 @@ import { ICartItem } from '../interfaces/interfaces';
 type Props = {};
 
 const Header = (props: Props) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
   const [numCartItems, setNumCartItems] = useState(0);
-  const { isLoggedIn, logout } = useCustomerContext();
+  const { isLoggedIn, logout, isModalOpen, toggleModal } = useCustomerContext();
   const { cartItems } = useCartContext();
 
   useEffect(() => {
@@ -24,9 +24,9 @@ const Header = (props: Props) => {
     setNumCartItems(cartQuantity);
   }, [cartItems]);
 
-  const toggleModal = useCallback(() => {
-    setIsModalOpen(!isModalOpen);
-  }, [isModalOpen]);
+  // const toggleModal = useCallback(() => {
+  //   setIsModalOpen(!isModalOpen);
+  // }, [isModalOpen]);
 
   const handleLogout = () => {
     logout();
