@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { ICartItem, IProduct } from '../interfaces/interfaces';
+import { IProduct } from '../interfaces/interfaces';
 import ProductCard from './ProductCard';
+import { useCartContext } from '../context/CartContext';
 
 type Props = {};
 
@@ -9,34 +10,11 @@ const ProductList = (props: Props) => {
   const [errorMsg, setErrorMsg] = useState(null);
   const [products, setProducts] = useState<IProduct[] | null>(null);
 
-  //set defaultvalue from localstorage
-  const [cartItems, setCartItems] = useState<ICartItem[]>(() => {
-    // check if cart key exist, parse if it does otherwise return empty arr
-    const localStorageData = localStorage.getItem('cart');
-    return localStorageData ? JSON.parse(localStorageData) : [];
-  });
+  const { addToCart } = useCartContext();
 
   const handleAddToCart = (product: IProduct, quantity: number) => {
-    // check if product is in cart
-    const inCartIndex = cartItems.findIndex(
-      item => product.id === item.product.id
-    );
-
-    // if product in cart increase quantity
-    if (inCartIndex !== -1) {
-      const updateCartItems = [...cartItems];
-      updateCartItems[inCartIndex].quantity += quantity;
-      setCartItems(updateCartItems);
-    } else {
-      const cartItem: ICartItem = { product, quantity };
-      setCartItems(prevCartItems => [...prevCartItems, cartItem]);
-    }
+    addToCart(product, quantity);
   };
-
-  useEffect(() => {
-    // Update localStorage whenever cartItems state changes
-    localStorage.setItem('cart', JSON.stringify(cartItems));
-  }, [cartItems]);
 
   useEffect(() => {
     const getProducts = async () => {
