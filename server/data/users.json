@@ -1,44 +1,9 @@
 [
   {
-    "firstname": "johan",
-    "lastname": "johan",
-    "email": "johan@johan.se",
-    "password": "$2b$10$uwv9Pe9xaHD75LrYZerAwO5spvjN.ibFHswbyQSsG3RCwjDsynq.m",
-    "id": "cus_Oaq7BOh3mjf03e"
-  },
-  {
-    "firstname": "sixten",
-    "lastname": "hej",
-    "email": "sixten@sixten.se",
-    "password": "$2b$10$HKngCkMtswaKVs3NZFSpkOacHQKZ7P2yri7nQC6xAABc263uCc2Hu",
-    "id": "cus_Oaq8ttaRgLI8f6"
-  },
-  {
-    "firstname": "sdsd",
-    "lastname": "sdsd",
-    "email": "sds@dfdf.se",
-    "password": "$2b$10$P.NPhLr71Oh8KN2E2slhw.sIdy/PRKjxu29YZu.NCKGrWJwhhae0K",
-    "id": "cus_OaqComeaouHK0F"
-  },
-  {
-    "firstname": "hejsan",
-    "lastname": "hej",
-    "email": "hej@hej.se",
-    "password": "$2b$10$o.edu6VGetNfDdKDHN/lFuRxRT1bmL3AajX2f9wM.vL5kUkVL2zg.",
-    "id": "cus_OaqVASAJEgthZL"
-  },
-  {
-    "firstname": "thjea",
-    "lastname": "tje",
-    "email": "fdfj@lksdsdkl.se",
-    "password": "$2b$10$Ldbae7B4yacGAmwfTZoXTOidFDNK8TZpalyQ.ulomvgpnrGQKKEli",
-    "id": "cus_OaqV3FwZUCEvrO"
-  },
-  {
     "firstname": "Therese",
     "lastname": "Linden",
-    "email": "theresemlinden@gmail.com",
-    "password": "$2b$10$GA0PTYk9AeMo/szowyB0g.UlQqhdXuzyJYkJle4rMpVDT4AJuQxvS",
-    "id": "cus_OaqbTR7lTh2Nwn"
+    "email": "therese@therese.se",
+    "password": "$2b$10$J5s64Gp9O0mhyrj71UNQP.HAk8nryU8n64h8o05x37sY4Lxj6TU.m",
+    "id": "cus_OcSOPmXf7AcCz4"
   }
 ]
