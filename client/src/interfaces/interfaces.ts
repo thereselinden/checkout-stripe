@@ -27,3 +27,8 @@ export interface IProduct {
     unit_amount: number;
   };
 }
+
+export interface ICartItem {
+  product: IProduct;
+  quantity: number;
+}
