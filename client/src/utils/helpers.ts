@@ -1,3 +1,5 @@
+import { ICartItem } from '../interfaces/interfaces';
+
 export const formatPrice = (priceInCents: number): string => {
   // to get price without cents
   const price = Math.floor(priceInCents / 100);
@@ -10,4 +12,14 @@ export const formatPrice = (priceInCents: number): string => {
     cents > 0 ? `${price},${cents < 10 ? '0' : ''}${cents}` : price.toString();
 
   return cents;
+};
+
+export const totalPrice = (items: ICartItem[]): string => {
+  let total = 0;
+
+  for (let i = 0; i < items.length; i++) {
+    total += items[i].product.default_price.unit_amount * items[i].quantity;
+  }
+
+  return formatPrice(total);
 };
