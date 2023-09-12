@@ -4,7 +4,7 @@ import ConfirmationPage from './pages/ConfirmationPage/ConfirmationPage';
 import Header from './components/Header/Header';
 import CartPage from './pages/CartPage/CartPage';
 
-import './styles/_base.scss';
+import './styles/main.scss';
 
 type Props = {};
 
