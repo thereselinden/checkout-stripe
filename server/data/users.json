@@ -5,5 +5,12 @@
     "email": "therese@therese.se",
     "password": "$2b$10$J5s64Gp9O0mhyrj71UNQP.HAk8nryU8n64h8o05x37sY4Lxj6TU.m",
     "id": "cus_OcSOPmXf7AcCz4"
+  },
+  {
+    "firstname": "Test",
+    "lastname": "Test",
+    "email": "test@test.se",
+    "password": "$2b$10$98LWiVtvpZlMPMvr/z8peua4bphyM3a1PV/5PUrQuy4QU13DXHeye",
+    "id": "cus_OcirphVqAo2hyE"
   }
 ]
