@@ -1,0 +1,11 @@
+@import '../../styles/_base';
+@import '../../styles/_variables';
+
+header {
+  background-color: $primary;
+  color: $text;
+  padding: $base-padding;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
