@@ -22,6 +22,7 @@ const ProductList = (props: Props) => {
       try {
         const response = await fetch('http://localhost:3000/api/products/');
         const data = await response.json();
+
         if (response.ok) {
           setIsLoading(false);
           setProducts(data.data);

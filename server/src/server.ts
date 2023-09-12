@@ -7,6 +7,8 @@ import path from 'path';
 
 import customerRouter from './routes/customer-router';
 import productRouter from './routes/product-router';
+import checkoutRouter from './routes/checkout-route';
+import orderRouter from './routes/order-router';
 
 const CLIENT_URL = process.env.CLIENT_URL;
 const PORT: string = process.env.port || '3000';
@@ -36,6 +38,8 @@ app.use(
 app.use(express.json());
 app.use('/api/customer', customerRouter);
 app.use('/api', productRouter);
+app.use('/api', checkoutRouter);
+app.use('/api', orderRouter);
 
 // app.post('/test', async (req: Request, res: Response) => {
 //   console.log(req.body);

@@ -12,9 +12,9 @@ const LoginForm = (props: Props) => {
 
   const { login, errorMsg, isLoggedIn, toggleModal } = useCustomerContext();
 
-  useEffect(() => {
-    if (isLoggedIn) toggleModal();
-  }, [isLoggedIn]);
+  // useEffect(() => {
+  //   if (isLoggedIn) toggleModal();
+  // }, [isLoggedIn]);
 
   const handleLogin = () => {
     const user: ILoginForm = { email, password };

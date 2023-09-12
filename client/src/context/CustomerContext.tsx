@@ -74,6 +74,7 @@ const CustomerContextProvider = ({ children }: PropsWithChildren) => {
       if (response.ok) {
         setUser(data);
         setIsLoggedIn(true);
+        toggleModal();
         setErrorMsg(null);
       } else {
         setErrorMsg(data.message);

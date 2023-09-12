@@ -3,7 +3,7 @@ import { BsCart2 } from 'react-icons/bs';
 import { AiOutlineLogin } from 'react-icons/ai';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { CgProfile } from 'react-icons/cg';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Modal from './Modal';
 import Button from './Button';
 import { useCustomerContext } from '../context/CustomerContext';
@@ -13,7 +13,6 @@ import { ICartItem } from '../interfaces/interfaces';
 type Props = {};
 
 const Header = (props: Props) => {
-  // const [isModalOpen, setIsModalOpen] = useState(false);
   const [numCartItems, setNumCartItems] = useState(0);
   const { isLoggedIn, logout, isModalOpen, toggleModal } = useCustomerContext();
   const { cartItems } = useCartContext();
@@ -23,10 +22,6 @@ const Header = (props: Props) => {
     cartItems.forEach((item: ICartItem) => (cartQuantity += item.quantity));
     setNumCartItems(cartQuantity);
   }, [cartItems]);
-
-  // const toggleModal = useCallback(() => {
-  //   setIsModalOpen(!isModalOpen);
-  // }, [isModalOpen]);
 
   const handleLogout = () => {
     logout();
@@ -39,20 +34,31 @@ const Header = (props: Props) => {
           <h2>WebShop</h2>
         </Link>
         <div>
-          <p className="number-cart-items">
-            {numCartItems > 0 && numCartItems}
-          </p>
           <Link to="/cart">
-            <Button Icon={BsCart2} disabled={false} type="button" />
+            {numCartItems > 0 && (
+              <p className="number-cart-items">{numCartItems}</p>
+            )}
+            <Button
+              Icon={BsCart2}
+              disabled={false}
+              type="button"
+              className="icon-btn"
+            />
           </Link>
           {isLoggedIn ? (
             <>
-              <Button Icon={CgProfile} disabled={false} type="button" />
+              <Button
+                Icon={CgProfile}
+                disabled={false}
+                type="button"
+                className="icon-btn"
+              />
               <Button
                 Icon={BiLogOutCircle}
                 disabled={false}
                 type="button"
                 onClick={handleLogout}
+                className="icon-btn"
               />
             </>
           ) : (
