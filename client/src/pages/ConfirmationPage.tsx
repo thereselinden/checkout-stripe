@@ -66,7 +66,10 @@ const ConfirmationPage = (props: Props) => {
 
             {order &&
               order.products.map(item => (
-                <article style={{ display: 'flex', gap: 5 }}>
+                <article
+                  key={item.product_id}
+                  style={{ display: 'flex', gap: 5 }}
+                >
                   <img
                     src={item.product_image}
                     alt={item.product_name}
@@ -79,7 +82,9 @@ const ConfirmationPage = (props: Props) => {
                   </div>
                 </article>
               ))}
-            <h4>Total price: </h4>
+            {order && (
+              <h4>Total price: {formatPrice(order.amount_total)} SEK</h4>
+            )}
           </div>
         </>
       )}
