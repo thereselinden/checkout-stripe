@@ -7,13 +7,13 @@ import CustomerContextProvider from './context/CustomerContext.tsx';
 import CartContextProvider from './context/CartContext.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  // <React.StrictMode>
-  <BrowserRouter>
-    <CustomerContextProvider>
-      <CartContextProvider>
-        <App />
-      </CartContextProvider>
-    </CustomerContextProvider>
-  </BrowserRouter>
-  // </React.StrictMode>,
+  <React.StrictMode>
+    <BrowserRouter>
+      <CustomerContextProvider>
+        <CartContextProvider>
+          <App />
+        </CartContextProvider>
+      </CustomerContextProvider>
+    </BrowserRouter>
+  </React.StrictMode>
 );
