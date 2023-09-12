@@ -8,13 +8,17 @@ import { formatPrice, totalPrice } from '../utils/helpers';
 type Props = {};
 
 const CartPage = (props: Props) => {
-  const { isLoggedIn, toggleModal } = useCustomerContext();
+  const { isLoggedIn, toggleModal, user } = useCustomerContext();
   const { cartItems, setCartItems } = useCartContext();
   const navigate = useNavigate();
 
   console.log('cartItems', cartItems);
 
   const handleCheckout = async () => {
+    const cart = {
+      cartItems,
+      user: user.id,
+    };
     try {
       const response = await fetch(
         'http://localhost:3000/api/checkout/create-checkout-session',
@@ -23,7 +27,7 @@ const CartPage = (props: Props) => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(cartItems),
+          body: JSON.stringify(cart),
         }
       );
       const data = await response.json();
