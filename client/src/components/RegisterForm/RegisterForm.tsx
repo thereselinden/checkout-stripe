@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import InputField from './InputField';
-import Button from './Button';
-import { IRegisterForm } from '../interfaces/interfaces';
+import InputField from '../InputField/InputField';
+import Button from '../Button/Button';
+import { IRegisterForm } from '../../interfaces/interfaces';
 
 type Props = {
   toggleShowLogin: () => void;

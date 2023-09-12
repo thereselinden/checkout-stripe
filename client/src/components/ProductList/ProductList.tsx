@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { IProduct } from '../interfaces/interfaces';
-import ProductCard from './ProductCard';
-import { useCartContext } from '../context/CartContext';
+import { IProduct } from '../../interfaces/interfaces';
+import ProductCard from '../ProductCard/ProductCard';
+import { useCartContext } from '../../context/CartContext';
 
 type Props = {};
 

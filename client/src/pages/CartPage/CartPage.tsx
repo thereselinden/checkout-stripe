@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import Button from '../components/Button';
-import { useCartContext } from '../context/CartContext';
-import { useCustomerContext } from '../context/CustomerContext';
-import { ICartItem } from '../interfaces/interfaces';
-import { formatPrice, totalPrice } from '../utils/helpers';
+import Button from '../../components/Button/Button';
+import { useCartContext } from '../../context/CartContext';
+import { useCustomerContext } from '../../context/CustomerContext';
+import { ICartItem } from '../../interfaces/interfaces';
+import { formatPrice, totalPrice } from '../../utils/helpers';
 
 type Props = {};
 

@@ -1,6 +1,6 @@
-import { IProduct } from '../interfaces/interfaces';
-import { formatPrice } from '../utils/helpers';
-import Button from './Button';
+import { IProduct } from '../../interfaces/interfaces';
+import { formatPrice } from '../../utils/helpers';
+import Button from '../Button/Button';
 
 type Props = {
   product: IProduct;

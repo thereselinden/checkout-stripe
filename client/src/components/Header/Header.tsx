@@ -4,11 +4,11 @@ import { AiOutlineLogin } from 'react-icons/ai';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { CgProfile } from 'react-icons/cg';
 import { useEffect, useState } from 'react';
-import Modal from './Modal';
-import Button from './Button';
-import { useCustomerContext } from '../context/CustomerContext';
-import { useCartContext } from '../context/CartContext';
-import { ICartItem } from '../interfaces/interfaces';
+import Modal from '../Modal/Modal';
+import Button from '../Button/Button';
+import { useCustomerContext } from '../../context/CustomerContext';
+import { useCartContext } from '../../context/CartContext';
+import { ICartItem } from '../../interfaces/interfaces';
 
 type Props = {};
 

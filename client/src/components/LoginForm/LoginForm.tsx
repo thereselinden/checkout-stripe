@@ -1,8 +1,8 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import InputField from './InputField';
-import Button from './Button';
-import { useCustomerContext } from '../context/CustomerContext';
-import { ILoginForm } from '../interfaces/interfaces';
+import InputField from '../InputField/InputField';
+import Button from '../Button/Button';
+import { useCustomerContext } from '../../context/CustomerContext';
+import { ILoginForm } from '../../interfaces/interfaces';
 
 type Props = {};
 

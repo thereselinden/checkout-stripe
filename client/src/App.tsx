@@ -1,8 +1,11 @@
 import { Route, Routes } from 'react-router-dom';
-import StartPage from './pages/StartPage';
-import ConfirmationPage from './pages/ConfirmationPage';
-import Header from './components/Header';
-import CartPage from './pages/CartPage';
+import StartPage from './pages/StartPage/StartPage';
+import ConfirmationPage from './pages/ConfirmationPage/ConfirmationPage';
+import Header from './components/Header/Header';
+import CartPage from './pages/CartPage/CartPage';
+
+import './styles/_base.scss';
+
 type Props = {};
 
 const App = (props: Props) => {

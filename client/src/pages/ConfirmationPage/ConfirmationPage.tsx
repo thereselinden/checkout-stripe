@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { IOrder } from '../interfaces/interfaces';
-import { formatPrice } from '../utils/helpers';
+import { IOrder } from '../../interfaces/interfaces';
+import { formatPrice } from '../../utils/helpers';
 
 type Props = {};
 
