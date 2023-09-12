@@ -54,4 +54,5 @@ export interface IOrder {
       total_price: number;
     }
   ];
+  amount_total: number;
 }
