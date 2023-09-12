@@ -32,3 +32,26 @@ export interface ICartItem {
   product: IProduct;
   quantity: number;
 }
+
+interface ICustomer {
+  id: string;
+  name: string;
+  email: string;
+}
+
+export interface IOrder {
+  order_id: string;
+  created: number;
+  customer: ICustomer;
+  products: [
+    {
+      product_id: string;
+      product_name: string;
+      product_image: string;
+      price: number;
+      quantity: number;
+      discount: number;
+      total_price: number;
+    }
+  ];
+}
