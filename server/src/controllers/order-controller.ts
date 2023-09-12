@@ -21,6 +21,8 @@ export const verifyOrder = async (req: Request, res: Response) => {
       expand: ['line_items'],
     });
 
+    console.log('SESSION OBJEKT', session);
+
     if (session.payment_status !== 'paid')
       return res.status(400).json({ verified: false });
 
@@ -67,6 +69,7 @@ export const verifyOrder = async (req: Request, res: Response) => {
         email: session.customer_details?.email,
       },
       products: await orderItems,
+      amount_total: session.amount_total,
     };
     saveOrder(order);
 
