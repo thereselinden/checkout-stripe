@@ -34,20 +34,31 @@ const Header = (props: Props) => {
           <h2>WebShop</h2>
         </Link>
         <div>
-          <p className="number-cart-items">
-            {numCartItems > 0 && numCartItems}
-          </p>
           <Link to="/cart">
-            <Button Icon={BsCart2} disabled={false} type="button" />
+            {numCartItems > 0 && (
+              <p className="number-cart-items">{numCartItems}</p>
+            )}
+            <Button
+              Icon={BsCart2}
+              disabled={false}
+              type="button"
+              className="icon-btn"
+            />
           </Link>
           {isLoggedIn ? (
             <>
-              <Button Icon={CgProfile} disabled={false} type="button" />
+              <Button
+                Icon={CgProfile}
+                disabled={false}
+                type="button"
+                className="icon-btn"
+              />
               <Button
                 Icon={BiLogOutCircle}
                 disabled={false}
                 type="button"
                 onClick={handleLogout}
+                className="icon-btn"
               />
             </>
           ) : (
