@@ -12,8 +12,6 @@ const CartPage = (props: Props) => {
   const { cartItems, setCartItems } = useCartContext();
   const navigate = useNavigate();
 
-  console.log('cartItems', cartItems);
-
   const handleCheckout = async () => {
     const cart = {
       cartItems,
