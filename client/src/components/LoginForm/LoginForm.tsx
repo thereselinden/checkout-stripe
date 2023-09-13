@@ -23,41 +23,33 @@ const LoginForm = (props: Props) => {
   return (
     <>
       <h2>Log in</h2>
-      <div>
-        <InputField
-          type="email"
-          value={email}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setEmail(e.target.value)
-          }
-          required
-          placeholder="Enter your email"
-        />
-        <InputField
-          type="password"
-          value={password}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setPassword(e.target.value)
-          }
-          required
-          placeholder="Enter your password"
-          autofocus={false}
-        />
-        <div>
-          <Button
-            text="Close"
-            type="button"
-            onClick={() => toggleModal()}
-            disabled={false}
-          />
-          <Button
-            text="Login"
-            disabled={!email || !password}
-            onClick={handleLogin}
-          />
-          {errorMsg && <p>{errorMsg}</p>}
-        </div>
-      </div>
+      <InputField
+        type="email"
+        value={email}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          setEmail(e.target.value)
+        }
+        required
+        placeholder="Enter email..."
+      />
+      <InputField
+        type="password"
+        value={password}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          setPassword(e.target.value)
+        }
+        required
+        placeholder="Enter password..."
+        autofocus={false}
+      />
+
+      <Button
+        text="Login"
+        disabled={!email || !password}
+        onClick={handleLogin}
+        className="btn-secondary btn-login"
+      />
+      {errorMsg && <p>{errorMsg}</p>}
     </>
   );
 };
