@@ -5,6 +5,8 @@ import { useCustomerContext } from '../../context/CustomerContext';
 import { ICartItem } from '../../interfaces/interfaces';
 import { formatPrice, totalPrice } from '../../utils/helpers';
 
+import './cartPage.scss';
+
 type Props = {};
 
 const CartPage = (props: Props) => {
@@ -42,43 +44,75 @@ const CartPage = (props: Props) => {
   };
   return (
     <>
-      <h1>Your cart</h1>
+      <h2>Your cart</h2>
       {cartItems.length > 0 ? (
-        <section>
-          {cartItems.map((item: ICartItem) => (
-            <article key={item.product.id}>
-              <img src={item.product.images[0]} alt={item.product.name} />
-              <div>
-                <h4>{item.product.name}</h4>
-                <p>Quantity: {item.quantity}</p>
-                <p>
-                  Price: {formatPrice(item.product.default_price.unit_amount)}{' '}
-                  {item.product.default_price.currency.toUpperCase()}
-                </p>
-              </div>
-            </article>
-          ))}
-          <p>Total price: {totalPrice(cartItems)} SEK</p>
+        <section className="cart-container">
+          <div className="row">
+            {cartItems.map((item: ICartItem) => (
+              <article
+                key={item.product.id}
+                className="card cart-card col-12-xs col-4-md"
+              >
+                <img
+                  src={item.product.images[0]}
+                  alt={item.product.name}
+                  className="cart-img"
+                />
+                <div className="card-body">
+                  <h4 className="card-title">{item.product.name}</h4>
+                  <p>
+                    <span>Quantity:</span> {item.quantity}
+                  </p>
+                  <p>
+                    <span>Price:</span>{' '}
+                    {formatPrice(item.product.default_price.unit_amount)}{' '}
+                    {item.product.default_price.currency.toUpperCase()}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+          <div className="order-summary-container col-12-xs">
+            <div>
+              <h3>Order summary</h3>
+              <small>{cartItems.length} products</small>
+            </div>
+            <hr />
+            <p>Total price: {totalPrice(cartItems)} SEK</p>
+            <hr />
+            <div className="order-action">
+              {!isLoggedIn ? (
+                <div>
+                  <p>Login to place order</p>
+                  <Button
+                    text="Log in"
+                    disabled={false}
+                    onClick={handleLogin}
+                    className="btn-secondary "
+                  />
+                </div>
+              ) : (
+                <Button
+                  type="button"
+                  text="Go to Checkout"
+                  disabled={!isLoggedIn}
+                  onClick={handleCheckout}
+                  className="btn-secondary"
+                />
+              )}
+            </div>
+          </div>
         </section>
       ) : (
-        <Button
-          onClick={() => navigate('/')}
-          text="Continue shopping"
-          disabled={false}
-        />
-      )}
-      {!isLoggedIn ? (
-        <section>
-          <p>Login to place order</p>
-          <Button text="Log in" disabled={false} onClick={handleLogin} />
-        </section>
-      ) : (
-        <Button
-          type="button"
-          text="Go to Checkout"
-          disabled={!isLoggedIn}
-          onClick={handleCheckout}
-        />
+        <>
+          <h3>Nothing here!</h3>
+          <Button
+            onClick={() => navigate('/')}
+            text="Continue shopping"
+            disabled={false}
+            className="btn-secondary"
+          />
+        </>
       )}
     </>
   );
