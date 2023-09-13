@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;500;600&family=Montserrat:ital,wght@0,100;0,300;0,400;0,500;1,100&family=Quicksand:wght@300;400;500;600;700&display=swap');
-
+@import 'variables';
 /* Reset styles */
 * {
   color: inherit;
@@ -23,4 +23,10 @@ a {
 
 img {
   max-width: 100%;
+}
+
+h2 {
+  margin: 1rem 0;
+  color: $text;
+  font-weight: 600;
 }
