@@ -17,8 +17,9 @@ const CartPage = (props: Props) => {
   const handleCheckout = async () => {
     const cart = {
       cartItems,
-      user: user.id,
+      user: user?.id,
     };
+
     try {
       const response = await fetch(
         'http://localhost:3000/api/checkout/create-checkout-session',
