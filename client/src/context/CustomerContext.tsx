@@ -8,13 +8,13 @@ import {
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { ILoginForm, IUser } from '../interfaces/interfaces';
+import { ICustomerContext, ILoginForm, IUser } from '../interfaces/interfaces';
 
 const defaultValue = {
   //registerCustomer:  () => {}
 };
 
-export const CustomerContext = createContext(null as any);
+export const CustomerContext = createContext<ICustomerContext>(null as any);
 
 export const useCustomerContext = () => useContext(CustomerContext);
 
