@@ -1,0 +1,25 @@
+@use 'sass:math';
+@import 'variables';
+@import 'base';
+
+label {
+  text-align: start;
+}
+
+input {
+  background: $primary;
+  border-radius: $base-border-radius;
+  border: none;
+  padding: #{$base-padding * 1.2} 0;
+  padding-left: $base-padding;
+  margin-bottom: $base-margin;
+  width: 100%;
+  font-size: $base-font-size;
+  color: $text;
+
+  &::placeholder {
+    font-size: $base-font-size;
+    color: $text;
+    text-align: center;
+  }
+}
