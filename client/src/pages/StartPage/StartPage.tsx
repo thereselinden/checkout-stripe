@@ -4,9 +4,10 @@ type Props = {};
 
 const StartPage = (props: Props) => {
   return (
-    <div>
+    <>
+      <h2>Products</h2>
       <ProductList />
-    </div>
+    </>
   );
 };
 
