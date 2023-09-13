@@ -11,6 +11,10 @@ header {
   justify-content: space-between;
   align-items: center;
   margin-bottom: $base-margin;
+  .logo {
+    font-size: $font-size-lg;
+    font-weight: 500;
+  }
 }
 
 .cart-items-number {
