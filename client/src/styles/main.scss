@@ -1,6 +1,11 @@
+// variables
 @use 'variables';
 
+// base style and layout
+@use 'breakpoints';
 @use 'base';
+@use 'grid';
 
+// components
 @use 'button';
 @use 'card';
