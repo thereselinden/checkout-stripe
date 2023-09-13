@@ -23,13 +23,17 @@ button {
     &:hover {
       background-color: lighten($val, 8);
     }
+    &:disabled {
+      background-color: $secondaryDark;
+      cursor: unset;
+    }
   }
   .btn-icon-#{$key} {
     @include btn(transparent);
     padding: $base-padding;
     border-radius: $base-round-border-radius;
     svg {
-      color: $text;
+      color: $val;
       font-size: $font-size-lg;
     }
     &:hover {
