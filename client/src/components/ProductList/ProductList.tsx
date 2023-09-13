@@ -40,7 +40,7 @@ const ProductList = (props: Props) => {
   }, []);
 
   return (
-    <>
+    <section style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
       {isLoading && <p>Getting products....</p>}
       {errorMsg && <p>{errorMsg}</p>}
       {products &&
@@ -51,7 +51,7 @@ const ProductList = (props: Props) => {
             handleAddToCart={handleAddToCart}
           />
         ))}
-    </>
+    </section>
   );
 };
 
