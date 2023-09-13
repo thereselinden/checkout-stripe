@@ -12,7 +12,7 @@ const App = (props: Props) => {
   return (
     <>
       <Header />
-      <main>
+      <main className="container">
         <Routes>
           <Route path="/" element={<StartPage />} />
           <Route path="/cart" element={<CartPage />} />
