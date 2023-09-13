@@ -1,0 +1,24 @@
+@use 'sass:math';
+@import 'variables';
+@import 'base';
+
+.card {
+  border: $base-border-thickness solid #ddd;
+  box-shadow: $base-box-shadow;
+  display: grid;
+  align-items: center;
+  gap: 1rem;
+
+  .card-body {
+    font-size: $base-font-size;
+    display: grid;
+    grid-gap: 0.4rem;
+    padding: math.div($base-padding, 2);
+
+    .card-title {
+      font-size: $font-size-md;
+      padding-bottom: $base-padding;
+      font-weight: bold;
+    }
+  }
+}
