@@ -46,7 +46,7 @@ const RegisterForm = ({ toggleShowLogin }: Props) => {
 
   return (
     <div>
-      <label htmlFor="firstName">Firstname</label>
+      <h2>Register</h2>
       <InputField
         type="text"
         required
@@ -55,8 +55,8 @@ const RegisterForm = ({ toggleShowLogin }: Props) => {
           setFormFields({ ...formFields, firstname: e.target.value })
         }
         name="firstName"
+        placeholder="Firstname..."
       />
-      <label htmlFor="lastName">Lastname</label>
       <InputField
         type="text"
         required
@@ -66,8 +66,8 @@ const RegisterForm = ({ toggleShowLogin }: Props) => {
         }
         name="lastName"
         autofocus={false}
+        placeholder="Lastname..."
       />
-      <label htmlFor="email">Email</label>
       <InputField
         type="email"
         required
@@ -75,8 +75,8 @@ const RegisterForm = ({ toggleShowLogin }: Props) => {
         onChange={e => setFormFields({ ...formFields, email: e.target.value })}
         name="email"
         autofocus={false}
+        placeholder="Email..."
       />
-      <label htmlFor="password">Password</label>
       <InputField
         type="password"
         minLength={4}
@@ -86,6 +86,7 @@ const RegisterForm = ({ toggleShowLogin }: Props) => {
           setFormFields({ ...formFields, password: e.target.value })
         }
         autofocus={false}
+        placeholder="Password..."
       />
       <Button
         text="Create Account"
@@ -96,6 +97,7 @@ const RegisterForm = ({ toggleShowLogin }: Props) => {
           !formFields.password
         }
         onClick={handleRegisterCustomer}
+        className="btn-secondary btn-register"
       />
       {isLoading && <p>Loading....</p>}
       {errorMsg && <p>{errorMsg}</p>}
