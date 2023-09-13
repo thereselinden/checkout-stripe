@@ -30,3 +30,14 @@ h2 {
   color: $text;
   font-weight: 600;
 }
+
+h3 {
+  margin: 1rem 0;
+  color: $text;
+  font-weight: 500;
+}
+
+hr {
+  color: $text;
+  margin: $base-margin 0;
+}
