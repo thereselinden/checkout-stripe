@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { IOrder } from '../../interfaces/interfaces';
 import { formatDate, formatPrice } from '../../utils/helpers';
@@ -18,8 +18,13 @@ const ConfirmationPage = (props: Props) => {
   const query = searchParams.get('session_id');
   const navigate = useNavigate();
 
+  const firstMount = useRef(true);
+
   useEffect(() => {
+    console.log(firstMount.current);
     const verifyOrder = async () => {
+      console.log('verify order');
+
       setIsLoading(true);
       setErrorMsg(null);
       try {
@@ -53,7 +58,11 @@ const ConfirmationPage = (props: Props) => {
         setIsLoading(false);
       }
     };
-    verifyOrder();
+
+    if (firstMount.current) {
+      verifyOrder();
+      firstMount.current = false;
+    }
   }, [query]);
 
   return (
