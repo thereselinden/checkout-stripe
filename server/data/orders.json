@@ -40,5 +40,26 @@
       }
     ],
     "amount_total": 69800
+  },
+  {
+    "order_id": "cs_test_b1wsMBSnuFWFv1eIo3BmDMNLdFSMeR1iIgdn9aq8N4WTdhsTvBtMVCDB6q",
+    "created": 1694629726,
+    "customer": {
+      "id": "cus_OcirphVqAo2hyE",
+      "name": "Test Test",
+      "email": "test@test.se"
+    },
+    "products": [
+      {
+        "product_id": "prod_OZqMlDeukD4OGI",
+        "product_name": "Cap",
+        "product_image": "https://files.stripe.com/links/MDB8YWNjdF8xTm1YOUhKTTdyVEljbFh2fGZsX3Rlc3RfRUlQbWVtaUp4Qk5lZ3hsYk9hUkhOQVJT00JwoRXSKB",
+        "price": 22950,
+        "quantity": 1,
+        "discount": 4590,
+        "total_price": 18360
+      }
+    ],
+    "amount_total": 18360
   }
 ]
