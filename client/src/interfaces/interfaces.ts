@@ -11,7 +11,7 @@ export interface ICustomerContext {
   isLoading: boolean;
   user: IUser | null;
   logout: () => Promise<void>;
-  toggleModal: boolean;
+  toggleModal: () => void;
   isModalOpen: boolean;
 }
 export interface IRegisterForm {
