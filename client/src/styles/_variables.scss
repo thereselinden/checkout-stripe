@@ -1,13 +1,16 @@
 // theme variables
 $primary: #adc4c5;
 $secondary: #f1c71d;
+$secondaryDark: #b1900f;
 $light: rgb(249, 249, 249);
 $error: #d32752;
 $text: #454545;
+$opacity: rgba(0, 0, 0, 0.6);
 
 $colors: (
   'primary': $primary,
   'secondary': $secondary,
+  'secondaryDark': $secondaryDark,
   'error': $error,
   'text': $text,
 );
