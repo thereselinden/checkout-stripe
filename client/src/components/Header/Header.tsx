@@ -34,7 +34,7 @@ const Header = (props: Props) => {
     <>
       <header>
         <Link to={'/'}>
-          <h2>WebShop</h2>
+          <p className="logo">WebShop</p>
         </Link>
         <div>
           <Link to="/cart">
