@@ -96,3 +96,40 @@ const saveOrder = async order => {
 
   await fs.writeFile(dataFilePath, JSON.stringify(orders, null, 2));
 };
+
+export const getOrders = async (req: Request, res: Response) => {
+  try {
+    const customer = req.session?.id;
+
+    if (!customer)
+      return res
+        .status(403)
+        .json({ message: 'Must be logged in for this request' });
+
+    // get orders data read file
+    const dataFilePath = `${rootPath}/data/orders.json`;
+    const fileData = await fs.readFile(dataFilePath);
+    const fileContent = fileData.toString();
+
+    if (fileContent.length < 1) {
+      return res.status(200).json({ message: 'Inga ordrar' });
+    }
+
+    const orders = JSON.parse(fileContent);
+
+    // filter orders data
+    const filteredOrders = orders.filter(
+      order => order.customer.id === customer
+    );
+
+    // return filtered orders data
+    console.log('customer', customer);
+
+    res
+      .status(200)
+      .json({ message: 'Get orders gick bra', orders: filteredOrders });
+  } catch (err) {
+    console.log('err get orders', err);
+    res.status(400).json(err);
+  }
+};
