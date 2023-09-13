@@ -25,13 +25,13 @@ button {
   .btn-icon-#{$key} {
     @include btn(transparent);
     padding: $base-padding;
-    border-radius: $base-border-radius * 10;
+    border-radius: $base-round-border-radius;
     svg {
       color: $text;
       font-size: $font-size-lg;
     }
     &:hover {
-      background-color: $val;
+      scale: 1.05;
     }
   }
 }
