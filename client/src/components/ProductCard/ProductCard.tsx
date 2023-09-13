@@ -12,7 +12,7 @@ type Props = {
 const ProductCard = ({ product, handleAddToCart }: Props) => {
   return (
     <>
-      <article className="card">
+      <article className="card col-6-xs col-4-md col-3-xl">
         <img
           src={product.images[0]}
           alt={product.name}
