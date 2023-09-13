@@ -50,12 +50,14 @@ const Header = (props: Props) => {
           </Link>
           {isLoggedIn ? (
             <>
-              <Button
-                Icon={CgProfile}
-                disabled={false}
-                type="button"
-                className="btn-icon-text"
-              />
+              <Link to="/profile">
+                <Button
+                  Icon={CgProfile}
+                  disabled={false}
+                  type="button"
+                  className="btn-icon-text"
+                />
+              </Link>
               <Button
                 Icon={BiLogOutCircle}
                 disabled={false}
