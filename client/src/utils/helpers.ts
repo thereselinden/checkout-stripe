@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { ICartItem } from '../interfaces/interfaces';
 
 export const formatPrice = (priceInCents: number): string => {
@@ -22,4 +23,9 @@ export const totalPrice = (items: ICartItem[]): string => {
   }
 
   return formatPrice(total);
+};
+
+export const formatDate = (date: number): string => {
+  const currentDate = dayjs.unix(date);
+  return currentDate.format('YYYY-MM-DD HH:MM');
 };
