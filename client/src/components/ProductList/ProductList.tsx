@@ -40,7 +40,7 @@ const ProductList = (props: Props) => {
   }, []);
 
   return (
-    <section style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+    <section className="row">
       {isLoading && <p>Getting products....</p>}
       {errorMsg && <p>{errorMsg}</p>}
       {products &&
