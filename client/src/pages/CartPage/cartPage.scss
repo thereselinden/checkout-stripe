@@ -1,0 +1,53 @@
+@import '../../styles/variables';
+@import '../../styles/breakpoints';
+
+.cart-card {
+  grid-template-columns: 100px 1fr;
+  img {
+    height: 100%;
+    object-fit: cover;
+  }
+  p {
+    font-size: $font-size-sm;
+  }
+}
+
+.order-summary-container {
+  background-color: $light;
+  margin-top: $base-margin;
+  padding: $base-padding;
+  display: flex;
+  flex-direction: column;
+  max-height: 378px;
+  .order-action {
+    margin-top: auto;
+    div {
+      p {
+        margin-bottom: $base-margin;
+      }
+    }
+  }
+}
+
+@include md {
+  .cart-container {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 1rem;
+  }
+
+  .cart-card {
+    grid-template-columns: unset;
+  }
+}
+
+@include md {
+  .order-summary-container {
+    margin-top: 0;
+  }
+}
+
+// section stling
+// display: grid;
+// grid-template-columns: 3fr 1fr;
+// gap: 1rem;

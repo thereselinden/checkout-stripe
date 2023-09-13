@@ -1,0 +1,32 @@
+@use 'sass:math';
+
+@import '../../styles/_base';
+@import '../../styles/_variables';
+
+header {
+  background-color: $primary;
+  color: $text;
+  padding: $base-padding;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $base-margin;
+  .logo {
+    font-size: $font-size-lg;
+    font-weight: 500;
+  }
+}
+
+.cart-items-number {
+  position: absolute;
+  background-color: $secondary;
+  padding: math.div($base-padding, 4);
+  border-radius: $base-border-radius * 10;
+  font-size: math.div($base-font-size, 1.2);
+  font-weight: 500;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

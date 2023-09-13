@@ -1,0 +1,43 @@
+@import 'base';
+@import 'variables';
+
+@mixin btn($bg-color: #e2e2e2e2) {
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+  border: 0;
+  background-color: $bg-color;
+  text-transform: uppercase;
+}
+
+button {
+  @include btn;
+}
+
+@each $key, $val in $colors {
+  .btn-#{$key} {
+    @include btn($val);
+    border-radius: $base-border-radius;
+    padding: $base-padding $base-padding * 3;
+    width: 100%;
+    &:hover {
+      background-color: lighten($val, 8);
+    }
+    &:disabled {
+      background-color: $secondaryDark;
+      cursor: unset;
+    }
+  }
+  .btn-icon-#{$key} {
+    @include btn(transparent);
+    padding: $base-padding;
+    border-radius: $base-round-border-radius;
+    svg {
+      color: $val;
+      font-size: $font-size-lg;
+    }
+    &:hover {
+      scale: 1.05;
+    }
+  }
+}

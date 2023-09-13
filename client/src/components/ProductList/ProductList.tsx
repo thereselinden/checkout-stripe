@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { IProduct } from '../interfaces/interfaces';
-import ProductCard from './ProductCard';
-import { useCartContext } from '../context/CartContext';
+import { IProduct } from '../../interfaces/interfaces';
+import ProductCard from '../ProductCard/ProductCard';
+import { useCartContext } from '../../context/CartContext';
 
 type Props = {};
 
@@ -40,7 +40,7 @@ const ProductList = (props: Props) => {
   }, []);
 
   return (
-    <>
+    <section className="row">
       {isLoading && <p>Getting products....</p>}
       {errorMsg && <p>{errorMsg}</p>}
       {products &&
@@ -51,7 +51,7 @@ const ProductList = (props: Props) => {
             handleAddToCart={handleAddToCart}
           />
         ))}
-    </>
+    </section>
   );
 };
 

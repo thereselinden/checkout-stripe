@@ -1,5 +1,7 @@
 import { ElementType } from 'react';
 
+import './button.scss';
+
 type Props = {
   text?: string;
   Icon?: ElementType;

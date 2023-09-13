@@ -1,15 +1,18 @@
 import { Route, Routes } from 'react-router-dom';
-import StartPage from './pages/StartPage';
-import ConfirmationPage from './pages/ConfirmationPage';
-import Header from './components/Header';
-import CartPage from './pages/CartPage';
+import StartPage from './pages/StartPage/StartPage';
+import ConfirmationPage from './pages/ConfirmationPage/ConfirmationPage';
+import Header from './components/Header/Header';
+import CartPage from './pages/CartPage/CartPage';
+
+import './styles/main.scss';
+
 type Props = {};
 
 const App = (props: Props) => {
   return (
     <>
       <Header />
-      <main>
+      <main className="container">
         <Routes>
           <Route path="/" element={<StartPage />} />
           <Route path="/cart" element={<CartPage />} />

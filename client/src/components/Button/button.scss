@@ -1,0 +1,11 @@
+@import '../../styles/variables';
+
+.btn-align-top {
+  display: flex;
+  align-items: flex-start;
+}
+
+.btn-login,
+.btn-register {
+  margin: #{$base-margin * 1.5} 0;
+}

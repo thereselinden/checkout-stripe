@@ -4,11 +4,14 @@ import { AiOutlineLogin } from 'react-icons/ai';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { CgProfile } from 'react-icons/cg';
 import { useEffect, useState } from 'react';
-import Modal from './Modal';
-import Button from './Button';
-import { useCustomerContext } from '../context/CustomerContext';
-import { useCartContext } from '../context/CartContext';
-import { ICartItem } from '../interfaces/interfaces';
+
+import Modal from '../Modal/Modal';
+import Button from '../Button/Button';
+import { useCustomerContext } from '../../context/CustomerContext';
+import { useCartContext } from '../../context/CartContext';
+import { ICartItem } from '../../interfaces/interfaces';
+
+import './header.scss';
 
 type Props = {};
 
@@ -31,18 +34,18 @@ const Header = (props: Props) => {
     <>
       <header>
         <Link to={'/'}>
-          <h2>WebShop</h2>
+          <p className="logo">WebShop</p>
         </Link>
         <div>
           <Link to="/cart">
             {numCartItems > 0 && (
-              <p className="number-cart-items">{numCartItems}</p>
+              <p className="cart-items-number">{numCartItems}</p>
             )}
             <Button
               Icon={BsCart2}
               disabled={false}
               type="button"
-              className="icon-btn"
+              className="btn-icon-text btn-cart"
             />
           </Link>
           {isLoggedIn ? (
@@ -51,14 +54,14 @@ const Header = (props: Props) => {
                 Icon={CgProfile}
                 disabled={false}
                 type="button"
-                className="icon-btn"
+                className="btn-icon-text"
               />
               <Button
                 Icon={BiLogOutCircle}
                 disabled={false}
                 type="button"
                 onClick={handleLogout}
-                className="icon-btn"
+                className="btn-icon-text"
               />
             </>
           ) : (
@@ -67,6 +70,7 @@ const Header = (props: Props) => {
               onClick={toggleModal}
               disabled={false}
               type="button"
+              className="btn-icon-text"
             />
           )}
         </div>

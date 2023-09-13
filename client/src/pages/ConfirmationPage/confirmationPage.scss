@@ -1,0 +1,36 @@
+@import '../../styles/variables';
+
+.confirmation-container {
+  padding: $base-padding;
+  .confirmation-card {
+    display: flex;
+    align-items: center;
+
+    img {
+      width: 100px;
+      margin-right: $base-margin;
+    }
+  }
+  .order-details {
+    p {
+      font-weight: 500;
+      font-size: 0.8rem;
+      margin-bottom: $base-margin;
+      span {
+        color: $primary;
+        word-break: break-all;
+        font-weight: 300;
+      }
+    }
+  }
+
+  .order-summary {
+    p {
+      font-size: $base-font-size;
+    }
+    span {
+      font-weight: 500;
+      font-size: $base-font-size;
+    }
+  }
+}
