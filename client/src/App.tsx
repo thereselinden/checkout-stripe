@@ -6,6 +6,7 @@ import CartPage from './pages/CartPage/CartPage';
 
 import './styles/main.scss';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
+import ProtectedRoute from './utils/ProtectedRoute';
 
 type Props = {};
 
@@ -17,7 +18,14 @@ const App = (props: Props) => {
         <Routes>
           <Route path="/" element={<StartPage />} />
           <Route path="/cart" element={<CartPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/confirmation" element={<ConfirmationPage />} />
         </Routes>
       </main>
