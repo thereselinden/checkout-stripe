@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import {
   formatDate,
-  orderTotalPrice,
+  formatPrice,
   orderTotalQuantity,
-  totalPrice,
 } from '../../utils/helpers';
 import { useCustomerContext } from '../../context/CustomerContext';
 
@@ -47,7 +46,7 @@ const ProfilePage = (props: Props) => {
       {isLoading && <p>Getting orders....</p>}
       {errorMsg && <p>{errorMsg}</p>}
 
-      {orders && user && (
+      {orders && user ? (
         <>
           <h2>Orders</h2>
           <h3>Hi, {user.firstname}</h3>
@@ -58,9 +57,14 @@ const ProfilePage = (props: Props) => {
                 <p>{formatDate(order.created)}</p>
                 <small>{orderTotalQuantity(order.products)} product(s)</small>
               </div>
-              <p>{orderTotalPrice(order.products)} SEK</p>
+              <p>{formatPrice(order.amount_total)} SEK</p>
             </section>
           ))}
+        </>
+      ) : (
+        <>
+          <h2>Orders</h2>
+          <p>No orders here to be displayed!</p>
         </>
       )}
     </>
