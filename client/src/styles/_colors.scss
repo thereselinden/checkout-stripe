@@ -1,0 +1,8 @@
+@import './variables';
+// cycle colors map
+@each $key, $val in $colors {
+  @debug $colors;
+  .text-#{$key} {
+    color: $val;
+  }
+}
