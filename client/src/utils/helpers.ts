@@ -25,6 +25,26 @@ export const totalPrice = (items: ICartItem[]): string => {
   return formatPrice(total);
 };
 
+export const orderTotalQuantity = (items: any[]): number => {
+  let quantity = 0;
+
+  for (let i = 0; i < items.length; i++) {
+    quantity += items[i].quantity;
+  }
+
+  return quantity;
+};
+
+export const orderTotalPrice = (items: any[]): string => {
+  let total = 0;
+
+  for (let i = 0; i < items.length; i++) {
+    total += items[i].total_price * items[i].quantity;
+  }
+
+  return formatPrice(total);
+};
+
 export const formatDate = (date: number): string => {
   const currentDate = dayjs.unix(date);
   return currentDate.format('YYYY-MM-DD HH:MM');

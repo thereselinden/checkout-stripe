@@ -1,3 +1,19 @@
+export interface ICartContext {
+  addToCart: (product: IProduct, quantity: number) => void;
+  cartItems: ICartItem[];
+  setCartItems: React.Dispatch<React.SetStateAction<ICartItem[]>>;
+}
+
+export interface ICustomerContext {
+  login: (credentials: ILoginForm) => Promise<void>;
+  isLoggedIn: boolean;
+  errorMsg: string | null;
+  isLoading: boolean;
+  user: IUser | null;
+  logout: () => Promise<void>;
+  toggleModal: () => void;
+  isModalOpen: boolean;
+}
 export interface IRegisterForm {
   firstname: string;
   lastname: string;

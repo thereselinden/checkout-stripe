@@ -19,6 +19,7 @@ export const checkoutSession = async (req: Request, res: Response) => {
       }),
       customer: user,
       mode: 'payment',
+      allow_promotion_codes: true,
       success_url: `${CLIENT_URL}/confirmation?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: CLIENT_URL,
     });

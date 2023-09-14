@@ -1,0 +1,12 @@
+@import 'variables';
+@import 'base';
+
+.list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: $light;
+  padding: $base-padding;
+  border-radius: $base-border-radius;
+  margin-bottom: $base-margin;
+}

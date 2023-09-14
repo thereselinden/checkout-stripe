@@ -4,6 +4,7 @@ import fs from 'fs/promises';
 
 import { initStripe } from '../stripe/stripe';
 import { rootPath } from '../server';
+import { IOrder } from '../interfaces/interface';
 
 const stripe = initStripe();
 
@@ -20,8 +21,6 @@ export const verifyOrder = async (req: Request, res: Response) => {
     const session = await stripe.checkout.sessions.retrieve(sessionId, {
       expand: ['line_items'],
     });
-
-    console.log('SESSION OBJEKT', session);
 
     if (session.payment_status !== 'paid')
       return res.status(400).json({ verified: false });
@@ -71,7 +70,8 @@ export const verifyOrder = async (req: Request, res: Response) => {
       products: await orderItems,
       amount_total: session.amount_total,
     };
-    saveOrder(order);
+
+    saveOrder(order, sessionId);
 
     res.status(200).json({ verified: true, data: order });
   } catch (err) {
@@ -79,7 +79,8 @@ export const verifyOrder = async (req: Request, res: Response) => {
   }
 };
 
-const saveOrder = async order => {
+//! order should not be any
+const saveOrder = async (order: any, sessionId: string) => {
   const dataFilePath = `${rootPath}/data/orders.json`;
   const fileData = await fs.readFile(dataFilePath);
 
@@ -89,10 +90,49 @@ const saveOrder = async order => {
   if (fileData.length > 1) {
     // convert from buffer to string before parsing
     const fileContent = fileData.toString();
+
     orders = JSON.parse(fileContent);
+
+    // if order number already exist, return (if refresh page on confirmation page)
+    if (orders.some(order => order.order_id === sessionId)) return;
   }
 
   orders.push(order);
 
   await fs.writeFile(dataFilePath, JSON.stringify(orders, null, 2));
+};
+
+export const getOrders = async (req: Request, res: Response) => {
+  try {
+    const customer = req.session?.id;
+
+    if (!customer)
+      return res
+        .status(403)
+        .json({ message: 'Must be logged in for this request' });
+
+    // get orders data read file
+    const dataFilePath = `${rootPath}/data/orders.json`;
+    const fileData = await fs.readFile(dataFilePath);
+    const fileContent = fileData.toString();
+
+    if (fileContent.length < 1) {
+      return res.status(200).json({ message: 'No orders available' });
+    }
+
+    const orders = JSON.parse(fileContent);
+
+    // filter orders data
+    const filteredOrders = orders.filter(
+      order => order.customer.id === customer
+    );
+
+    // return filtered orders data
+    console.log('customer', customer);
+
+    res.status(200).json({ orders: filteredOrders });
+  } catch (err) {
+    console.log('err get orders', err);
+    res.status(400).json({ message: 'Could not get orders' });
+  }
 };

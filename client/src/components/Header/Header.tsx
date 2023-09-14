@@ -34,7 +34,7 @@ const Header = (props: Props) => {
     <>
       <header>
         <Link to={'/'}>
-          <p className="logo">WebShop</p>
+          <p className="logo">Reloj</p>
         </Link>
         <div>
           <Link to="/cart">
@@ -45,23 +45,25 @@ const Header = (props: Props) => {
               Icon={BsCart2}
               disabled={false}
               type="button"
-              className="btn-icon-text btn-cart"
+              className="btn-icon-secondary btn-cart"
             />
           </Link>
           {isLoggedIn ? (
             <>
-              <Button
-                Icon={CgProfile}
-                disabled={false}
-                type="button"
-                className="btn-icon-text"
-              />
+              <Link to="/profile">
+                <Button
+                  Icon={CgProfile}
+                  disabled={false}
+                  type="button"
+                  className="btn-icon-secondary"
+                />
+              </Link>
               <Button
                 Icon={BiLogOutCircle}
                 disabled={false}
                 type="button"
                 onClick={handleLogout}
-                className="btn-icon-text"
+                className="btn-icon-secondary"
               />
             </>
           ) : (
@@ -70,7 +72,7 @@ const Header = (props: Props) => {
               onClick={toggleModal}
               disabled={false}
               type="button"
-              className="btn-icon-text"
+              className="btn-icon-secondary"
             />
           )}
         </div>

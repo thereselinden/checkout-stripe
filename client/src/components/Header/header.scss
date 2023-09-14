@@ -4,8 +4,8 @@
 @import '../../styles/_variables';
 
 header {
-  background-color: $primary;
-  color: $text;
+  background-color: $dark;
+  color: $secondary;
   padding: $base-padding;
   display: flex;
   justify-content: space-between;
@@ -19,7 +19,8 @@ header {
 
 .cart-items-number {
   position: absolute;
-  background-color: $secondary;
+  background-color: $dark;
+  border: 1px solid $secondary;
   padding: math.div($base-padding, 4);
   border-radius: $base-border-radius * 10;
   font-size: math.div($base-font-size, 1.2);
