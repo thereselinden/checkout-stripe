@@ -5,18 +5,24 @@ import fs from 'fs/promises';
 import { initStripe } from '../stripe/stripe';
 import { rootPath } from '../server';
 import { IOrder } from '../interfaces/interface';
+import {
+  STRIPE_CONNECT_ERROR,
+  ORDER_SESSIONID_ERROR,
+  STRIPE_LINEITEMS_ERROR,
+  STRIPE_PRICE_OBJECT_ERROR,
+  ORDER_VERIFY_ERROR,
+} from '../variables/variables';
 
 const stripe = initStripe();
 
 export const verifyOrder = async (req: Request, res: Response) => {
   try {
     const { sessionId } = req.body;
-    if (!stripe)
-      return res.status(500).json({ message: 'Could not connect to stripe' });
+    if (!stripe) return res.status(500).json({ message: STRIPE_CONNECT_ERROR });
 
     //const { sessionId } = req.body;
     if (!req.body.sessionId)
-      return res.status(400).json({ message: 'No sessionId provided' });
+      return res.status(400).json({ message: ORDER_SESSIONID_ERROR });
 
     const session = await stripe.checkout.sessions.retrieve(sessionId, {
       expand: ['line_items'],
@@ -29,7 +35,7 @@ export const verifyOrder = async (req: Request, res: Response) => {
       session.line_items;
 
     if (!lineItems)
-      return res.status(400).json({ message: 'Could not get line items' });
+      return res.status(400).json({ message: STRIPE_LINEITEMS_ERROR });
 
     const orderItems = Promise.all(
       lineItems.data.map(async (item: Stripe.LineItem) => {
@@ -54,7 +60,7 @@ export const verifyOrder = async (req: Request, res: Response) => {
         } else {
           res
             .status(200)
-            .json({ message: `Price information not available for ${item}` });
+            .json({ message: `${STRIPE_PRICE_OBJECT_ERROR} ${item}` });
         }
       })
     );
@@ -75,7 +81,7 @@ export const verifyOrder = async (req: Request, res: Response) => {
 
     res.status(200).json({ verified: true, data: order });
   } catch (err) {
-    res.status(400).json('Could not verify order');
+    res.status(400).json({ message: ORDER_VERIFY_ERROR });
   }
 };
 
