@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import InputField from '../InputField/InputField';
 import Button from '../Button/Button';
 import { useCustomerContext } from '../../context/CustomerContext';
@@ -10,11 +10,7 @@ const LoginForm = (props: Props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { login, errorMsg, isLoggedIn, toggleModal } = useCustomerContext();
-
-  // useEffect(() => {
-  //   if (isLoggedIn) toggleModal();
-  // }, [isLoggedIn]);
+  const { login, errorMsg } = useCustomerContext();
 
   const handleLogin = () => {
     const user: ILoginForm = { email, password };
@@ -42,14 +38,13 @@ const LoginForm = (props: Props) => {
         placeholder="Enter password..."
         autofocus={false}
       />
-
+      {errorMsg && <p className="text-error">{errorMsg}</p>}
       <Button
         text="Login"
         disabled={!email || !password}
         onClick={handleLogin}
         className="btn-secondary btn-login"
       />
-      {errorMsg && <p>{errorMsg}</p>}
     </>
   );
 };
