@@ -3,7 +3,11 @@ import Button from '../../components/Button/Button';
 import { useCartContext } from '../../context/CartContext';
 import { useCustomerContext } from '../../context/CustomerContext';
 import { ICartItem } from '../../interfaces/interfaces';
-import { formatPrice, totalPrice } from '../../utils/helpers';
+import {
+  formatPrice,
+  orderTotalQuantity,
+  totalPrice,
+} from '../../utils/helpers';
 
 import './cartPage.scss';
 
@@ -43,6 +47,8 @@ const CartPage = (props: Props) => {
   const handleLogin = () => {
     toggleModal();
   };
+
+  const cartQuantity = orderTotalQuantity(cartItems);
   return (
     <>
       <h2>Your cart</h2>
@@ -76,7 +82,7 @@ const CartPage = (props: Props) => {
           <div className="order-summary-container col-12-xs">
             <div>
               <h3>Order summary</h3>
-              <small>{cartItems.length} products</small>
+              <small>{cartQuantity} products</small>
             </div>
             <hr />
             <p>Total price: {totalPrice(cartItems)} SEK</p>
