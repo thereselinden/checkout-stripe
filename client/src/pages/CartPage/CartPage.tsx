@@ -11,9 +11,7 @@ import {
 
 import './cartPage.scss';
 
-type Props = {};
-
-const CartPage = (props: Props) => {
+const CartPage = () => {
   const { isLoggedIn, toggleModal, user } = useCustomerContext();
   const { cartItems, setCartItems } = useCartContext();
   const navigate = useNavigate();
@@ -38,7 +36,6 @@ const CartPage = (props: Props) => {
       const data = await response.json();
       window.location.replace(data.url);
       setCartItems([]);
-      console.log(data);
     } catch (error) {
       console.log(error);
     }

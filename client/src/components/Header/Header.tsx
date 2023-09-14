@@ -13,9 +13,7 @@ import { ICartItem } from '../../interfaces/interfaces';
 
 import './header.scss';
 
-type Props = {};
-
-const Header = (props: Props) => {
+const Header = () => {
   const [numCartItems, setNumCartItems] = useState(0);
   const { isLoggedIn, logout, isModalOpen, toggleModal } = useCustomerContext();
   const { cartItems } = useCartContext();
@@ -77,7 +75,7 @@ const Header = (props: Props) => {
           )}
         </div>
       </header>
-      {isModalOpen && <Modal toggleModal={toggleModal} />}
+      {isModalOpen && <Modal />}
     </>
   );
 };

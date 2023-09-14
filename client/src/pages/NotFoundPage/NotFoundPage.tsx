@@ -3,9 +3,7 @@ import Button from '../../components/Button/Button';
 
 import './notFoundPage.scss';
 
-type Props = {};
-
-const NotFoundPage = (props: Props) => {
+const NotFoundPage = () => {
   const navigate = useNavigate();
   const handleBackHome = () => {
     navigate('/');

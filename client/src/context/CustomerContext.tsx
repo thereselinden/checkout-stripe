@@ -10,10 +10,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { ICustomerContext, ILoginForm, IUser } from '../interfaces/interfaces';
 
-const defaultValue = {
-  //registerCustomer:  () => {}
-};
-
 export const CustomerContext = createContext<ICustomerContext>(null as any);
 
 export const useCustomerContext = () => useContext(CustomerContext);
@@ -67,7 +63,7 @@ const CustomerContextProvider = ({ children }: PropsWithChildren) => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(credentials),
-        credentials: 'include', // varför behöver jag denna?
+        credentials: 'include',
       });
 
       const data = await response.json();
@@ -80,7 +76,7 @@ const CustomerContextProvider = ({ children }: PropsWithChildren) => {
         setErrorMsg(data.message);
       }
       setIsLoading(false);
-    } catch (err: any) {
+    } catch (err) {
       setErrorMsg((err as Error).message);
       setIsLoading(false);
     }

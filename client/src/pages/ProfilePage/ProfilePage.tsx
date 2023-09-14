@@ -6,9 +6,7 @@ import {
 } from '../../utils/helpers';
 import { useCustomerContext } from '../../context/CustomerContext';
 
-type Props = {};
-
-const ProfilePage = (props: Props) => {
+const ProfilePage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [orders, setOrders] = useState<any[] | null>(null);
@@ -31,10 +29,8 @@ const ProfilePage = (props: Props) => {
           setIsLoading(false);
           setErrorMsg(null);
         }
-        console.log('data', data);
       } catch (err) {
         console.log(err);
-
         setIsLoading(false);
       }
     };
