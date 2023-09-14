@@ -7,6 +7,7 @@ import CartPage from './pages/CartPage/CartPage';
 import './styles/main.scss';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import ProtectedRoute from './utils/ProtectedRoute';
+import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 
 type Props = {};
 
@@ -27,6 +28,7 @@ const App = (props: Props) => {
             }
           />
           <Route path="/confirmation" element={<ConfirmationPage />} />
+          <Route path="/*" element={<NotFoundPage />} />
         </Routes>
       </main>
     </>
