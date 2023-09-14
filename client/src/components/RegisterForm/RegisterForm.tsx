@@ -1,23 +1,38 @@
 import { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+
 import InputField from '../InputField/InputField';
 import Button from '../Button/Button';
 import { IRegisterForm } from '../../interfaces/interfaces';
+import { registerSchema } from '../../utils/validateSchema';
 
 type Props = {
   toggleShowLogin: () => void;
 };
 
 const RegisterForm = ({ toggleShowLogin }: Props) => {
-  const [formFields, setFormFields] = useState<IRegisterForm>({
+  const defaultValues = {
     firstname: '',
     lastname: '',
     email: '',
     password: '',
-  });
+  };
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  const handleRegisterCustomer = async (): Promise<void> => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IRegisterForm>({
+    defaultValues,
+    resolver: yupResolver(registerSchema),
+  });
+
+  const handleRegisterCustomer: SubmitHandler<IRegisterForm> = async (
+    formData
+  ): Promise<void> => {
     setIsLoading(true);
     setErrorMsg(null);
     try {
@@ -26,7 +41,7 @@ const RegisterForm = ({ toggleShowLogin }: Props) => {
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formFields),
+          body: JSON.stringify(formData),
         }
       );
       const data = await response.json();
@@ -47,60 +62,40 @@ const RegisterForm = ({ toggleShowLogin }: Props) => {
   return (
     <div>
       <h2>Register</h2>
-      <InputField
+      <input
         type="text"
-        required
-        value={formFields.firstname}
-        onChange={e =>
-          setFormFields({ ...formFields, firstname: e.target.value })
-        }
-        name="firstName"
-        placeholder="Firstname..."
+        placeholder="enter firstname"
+        {...register('firstname')}
       />
-      <InputField
+      <p className="text-error">{errors.firstname?.message}</p>
+
+      <input
         type="text"
-        required
-        value={formFields.lastname}
-        onChange={e =>
-          setFormFields({ ...formFields, lastname: e.target.value })
-        }
-        name="lastName"
-        autofocus={false}
-        placeholder="Lastname..."
+        placeholder="enter lastname"
+        {...register('lastname')}
       />
-      <InputField
-        type="email"
-        required
-        value={formFields.email}
-        onChange={e => setFormFields({ ...formFields, email: e.target.value })}
-        name="email"
-        autofocus={false}
-        placeholder="Email..."
-      />
-      <InputField
+      <p className="text-error">{errors.lastname?.message}</p>
+
+      <input type="email" placeholder="enter email" {...register('email')} />
+      <p className="text-error">{errors.email?.message}</p>
+
+      <input
         type="password"
-        minLength={4}
-        required
-        value={formFields.password}
-        onChange={e =>
-          setFormFields({ ...formFields, password: e.target.value })
-        }
-        autofocus={false}
-        placeholder="Password..."
+        placeholder="enter password"
+        {...register('password')}
       />
+      <p className="text-error">{errors.password?.message}</p>
+
+      {errorMsg && <p className="text-error">{errorMsg}</p>}
+
       <Button
         text="Create Account"
-        disabled={
-          !formFields.firstname ||
-          !formFields.lastname ||
-          !formFields.email ||
-          !formFields.password
-        }
-        onClick={handleRegisterCustomer}
+        onClick={handleSubmit(handleRegisterCustomer)}
+        disabled={false}
         className="btn-secondary btn-register"
       />
+
       {isLoading && <p>Loading....</p>}
-      {errorMsg && <p>{errorMsg}</p>}
     </div>
   );
 };
