@@ -7,9 +7,11 @@ label {
 }
 
 input {
-  background: $primary;
-  border-radius: $base-border-radius;
+  background: $light;
+
+  // border-radius: $base-border-radius;
   border: none;
+  border-bottom: 1px solid $text;
   padding: #{$base-padding * 1.2} 0;
   padding-left: $base-padding;
   margin-bottom: $base-margin;
@@ -20,6 +22,6 @@ input {
   &::placeholder {
     font-size: $base-font-size;
     color: $text;
-    text-align: center;
+    //text-align: center;
   }
 }
