@@ -1,49 +1,52 @@
-import { ChangeEvent, useState } from 'react';
-import InputField from '../InputField/InputField';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { SubmitHandler, useForm } from 'react-hook-form';
+
 import Button from '../Button/Button';
 import { useCustomerContext } from '../../context/CustomerContext';
 import { ILoginForm } from '../../interfaces/interfaces';
+import { loginSchema } from '../../utils/validateSchema';
 
 type Props = {};
 
 const LoginForm = (props: Props) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const defaultValue = {
+    email: '',
+    password: '',
+  };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ILoginForm>({
+    defaultValues: defaultValue,
+    resolver: yupResolver(loginSchema),
+  });
 
   const { login, errorMsg } = useCustomerContext();
 
-  const handleLogin = () => {
-    const user: ILoginForm = { email, password };
-    login(user);
+  const handleLogin: SubmitHandler<ILoginForm> = data => {
+    login(data);
   };
   return (
     <>
       <h2>Log in</h2>
-      <InputField
-        type="email"
-        value={email}
-        onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          setEmail(e.target.value)
-        }
-        required
-        placeholder="Enter email..."
-      />
-      <InputField
+      <input type="email" placeholder="enter email..." {...register('email')} />
+      <p className="text-error">{errors.email?.message}</p>
+      <input
         type="password"
-        value={password}
-        onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          setPassword(e.target.value)
-        }
-        required
-        placeholder="Enter password..."
-        autofocus={false}
+        placeholder="enter password..."
+        {...register('password')}
       />
+      <p className="text-error">{errors.password?.message}</p>
+
       {errorMsg && <p className="text-error">{errorMsg}</p>}
       <Button
-        text="Login"
-        disabled={!email || !password}
-        onClick={handleLogin}
+        type="submit"
         className="btn-secondary btn-login"
+        text="Log in"
+        disabled={false}
+        onClick={handleSubmit(handleLogin)}
       />
     </>
   );
