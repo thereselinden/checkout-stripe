@@ -3,6 +3,7 @@ $primary: #adc4c5;
 $secondary: #f1c71d;
 $secondaryDark: #b1900f;
 $light: rgb(249, 249, 249);
+$dark: rgb(0, 0, 0.7);
 $error: #d32752;
 $text: #454545;
 $opacity: rgba(0, 0, 0, 0.6);
@@ -21,7 +22,7 @@ $base-margin: 0.75rem;
 
 // borders
 $base-border-thickness: 1px;
-$base-border-radius: 10px;
+$base-border-radius: 5px;
 $base-round-border-radius: 50%;
 
 // box-shadow
