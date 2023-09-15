@@ -2,13 +2,13 @@ import { NextFunction, Request, Response } from 'express';
 import { ValidationSchemaType } from '../schema/registerSchema';
 
 export const auth = (req: Request, res: Response, next: NextFunction) => {
-  console.log('middleware auth');
-  if (!req.session?.id)
+  if (!req.session?.id) {
     return res
       .status(403)
       .json({ message: 'Must be logged in for this request ' });
+  }
 
-  next();
+  return next();
 };
 
 export const validateResource =
@@ -19,7 +19,7 @@ export const validateResource =
       // throws an error if not valid
       await resourceSchema.validate(body);
       next();
-    } catch (e) {
-      res.status(400).json({ message: e.errors });
+    } catch (e: any) {
+      res.status(400).json({ message: (e as Error).message });
     }
   };
