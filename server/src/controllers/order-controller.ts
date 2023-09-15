@@ -20,8 +20,7 @@ export const verifyOrder = async (req: Request, res: Response) => {
     const { sessionId } = req.body;
     if (!stripe) return res.status(500).json({ message: STRIPE_CONNECT_ERROR });
 
-    //const { sessionId } = req.body;
-    if (!req.body.sessionId)
+    if (!sessionId)
       return res.status(400).json({ message: ORDER_SESSIONID_ERROR });
 
     const session = await stripe.checkout.sessions.retrieve(sessionId, {
@@ -81,16 +80,16 @@ export const verifyOrder = async (req: Request, res: Response) => {
 
     res.status(200).json({ verified: true, data: order });
   } catch (err) {
+    console.log('catch verify order', err);
     res.status(400).json({ message: ORDER_VERIFY_ERROR });
   }
 };
 
-//! order should not be any
 const saveOrder = async (order: any, sessionId: string) => {
   const dataFilePath = `${rootPath}/data/orders.json`;
   const fileData = await fs.readFile(dataFilePath);
 
-  let orders = [];
+  let orders: IOrder[] = [];
 
   // check if file contains data, update users array with that data
   if (fileData.length > 1) {
@@ -122,23 +121,19 @@ export const getOrders = async (req: Request, res: Response) => {
     const fileData = await fs.readFile(dataFilePath);
     const fileContent = fileData.toString();
 
-    if (fileContent.length < 1) {
+    if (fileContent.length < 1)
       return res.status(200).json({ message: 'No orders available' });
-    }
 
-    const orders = JSON.parse(fileContent);
+    const orders: IOrder[] = JSON.parse(fileContent);
 
     // filter orders data
     const filteredOrders = orders.filter(
       order => order.customer.id === customer
     );
 
-    // return filtered orders data
-    console.log('customer', customer);
-
     res.status(200).json({ orders: filteredOrders });
   } catch (err) {
-    console.log('err get orders', err);
+    console.error('err get orders', err);
     res.status(400).json({ message: 'Could not get orders' });
   }
 };
