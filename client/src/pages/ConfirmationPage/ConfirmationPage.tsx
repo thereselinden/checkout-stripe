@@ -18,10 +18,7 @@ const ConfirmationPage = () => {
   const firstMount = useRef(true);
 
   useEffect(() => {
-    console.log(firstMount.current);
     const verifyOrder = async () => {
-      console.log('verify order');
-
       setIsLoading(true);
       setErrorMsg(null);
       try {
@@ -40,7 +37,6 @@ const ConfirmationPage = () => {
         );
 
         const data = await response.json();
-        console.log('data', data);
         if (!response.ok) {
           setIsLoading(false);
           setErrorMsg(data.message);
@@ -71,10 +67,7 @@ const ConfirmationPage = () => {
           <div className="order-information">
             <h3>Thank you for your order!</h3>
             <p>Hi, {user.firstname}</p>
-            <p>
-              Your order with order number has been confirmed and will be
-              shipped soon.
-            </p>
+            <p>Your order has been confirmed and will be shipped soon.</p>
           </div>
           <hr />
           <div className="order-details">
