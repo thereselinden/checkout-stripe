@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   formatDate,
   formatPrice,
@@ -11,6 +11,8 @@ const ProfilePage = () => {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [orders, setOrders] = useState<any[] | null>(null);
   const { user } = useCustomerContext();
+
+  const firstMount = useRef(true);
 
   useEffect(() => {
     const getOrders = async () => {
@@ -30,11 +32,14 @@ const ProfilePage = () => {
           setErrorMsg(null);
         }
       } catch (err) {
-        console.log(err);
         setIsLoading(false);
       }
     };
-    getOrders();
+
+    if (firstMount.current) {
+      getOrders();
+      firstMount.current = false;
+    }
   }, []);
 
   return (
