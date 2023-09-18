@@ -6,6 +6,7 @@ import { useCustomerContext } from "../../context/CustomerContext";
 import { useCartContext } from "../../context/CartContext";
 
 import "./confirmationPage.scss";
+import ConfirmationSkeleton from "../../components/Loader/ConfirmationSkeleton";
 
 const ConfirmationPage = () => {
   const [isPaymentVerified, setIsPaymentVerified] = useState(false);
@@ -67,7 +68,7 @@ const ConfirmationPage = () => {
 
   return (
     <>
-      {isLoading && <p>Processing order....</p>}
+      {isLoading && <ConfirmationSkeleton />}
       {errorMsg && <p>{errorMsg}</p>}
       {isPaymentVerified && order && user && (
         <div className='card confirmation-container'>
