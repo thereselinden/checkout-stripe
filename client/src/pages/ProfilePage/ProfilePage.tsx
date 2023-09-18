@@ -1,10 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 import {
   formatDate,
   formatPrice,
   orderTotalQuantity,
-} from '../../utils/helpers';
-import { useCustomerContext } from '../../context/CustomerContext';
+} from "../../utils/helpers";
+import { useCustomerContext } from "../../context/CustomerContext";
+import Skeleton from "react-loading-skeleton";
+import OrderSkeleton from "../../components/Loader/OrderSkeleton";
 
 const ProfilePage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,8 +21,8 @@ const ProfilePage = () => {
       setIsLoading(true);
       setErrorMsg(null);
       try {
-        const response = await fetch('http://localhost:3000/api/orders', {
-          credentials: 'include',
+        const response = await fetch("http://localhost:3000/api/orders", {
+          credentials: "include",
         });
         const data = await response.json();
         if (!response.ok) {
@@ -44,7 +46,7 @@ const ProfilePage = () => {
 
   return (
     <>
-      {isLoading && <p>Getting orders....</p>}
+      {isLoading && <OrderSkeleton />}
       {errorMsg && <p>{errorMsg}</p>}
 
       {orders && user ? (
@@ -52,8 +54,8 @@ const ProfilePage = () => {
           <h2>Orders</h2>
           <h3>Hi, {user.firstname}</h3>
 
-          {orders.map(order => (
-            <section key={order.order_id} className="list">
+          {orders.map((order) => (
+            <section key={order.order_id} className='list'>
               <div>
                 <p>{formatDate(order.created)}</p>
                 <small>{orderTotalQuantity(order.products)} product(s)</small>
@@ -64,8 +66,11 @@ const ProfilePage = () => {
         </>
       ) : (
         <>
-          <h2>Orders</h2>
-          <p>No orders here to be displayed!</p>
+          <h2>{isLoading ? <Skeleton /> : "Orders"}</h2>
+          <p>
+            {" "}
+            {isLoading ? <Skeleton /> : " No orders here to be displayed!"}
+          </p>
         </>
       )}
     </>
