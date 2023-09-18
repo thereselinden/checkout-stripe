@@ -30,7 +30,7 @@ See variables used in `.env-example` file and create them in your `.env` file
 
 ## Learning objectives
 
-- Integrating with Stripe
+- Intergration with Stripe
 - React
 - React Router
 - Protected route /profile
