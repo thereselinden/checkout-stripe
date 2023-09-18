@@ -1,19 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   formatDate,
-  orderTotalPrice,
+  formatPrice,
   orderTotalQuantity,
-  totalPrice,
 } from '../../utils/helpers';
 import { useCustomerContext } from '../../context/CustomerContext';
 
-type Props = {};
-
-const ProfilePage = (props: Props) => {
+const ProfilePage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [orders, setOrders] = useState<any[] | null>(null);
   const { user } = useCustomerContext();
+
+  const firstMount = useRef(true);
 
   useEffect(() => {
     const getOrders = async () => {
@@ -32,14 +31,15 @@ const ProfilePage = (props: Props) => {
           setIsLoading(false);
           setErrorMsg(null);
         }
-        console.log('data', data);
       } catch (err) {
-        console.log(err);
-
         setIsLoading(false);
       }
     };
-    getOrders();
+
+    if (firstMount.current) {
+      getOrders();
+      firstMount.current = false;
+    }
   }, []);
 
   return (
@@ -47,7 +47,7 @@ const ProfilePage = (props: Props) => {
       {isLoading && <p>Getting orders....</p>}
       {errorMsg && <p>{errorMsg}</p>}
 
-      {orders && user && (
+      {orders && user ? (
         <>
           <h2>Orders</h2>
           <h3>Hi, {user.firstname}</h3>
@@ -58,9 +58,14 @@ const ProfilePage = (props: Props) => {
                 <p>{formatDate(order.created)}</p>
                 <small>{orderTotalQuantity(order.products)} product(s)</small>
               </div>
-              <p>{orderTotalPrice(order.products)} SEK</p>
+              <p>{formatPrice(order.amount_total)} SEK</p>
             </section>
           ))}
+        </>
+      ) : (
+        <>
+          <h2>Orders</h2>
+          <p>No orders here to be displayed!</p>
         </>
       )}
     </>

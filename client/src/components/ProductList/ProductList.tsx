@@ -3,9 +3,7 @@ import { IProduct } from '../../interfaces/interfaces';
 import ProductCard from '../ProductCard/ProductCard';
 import { useCartContext } from '../../context/CartContext';
 
-type Props = {};
-
-const ProductList = (props: Props) => {
+const ProductList = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
   const [products, setProducts] = useState<IProduct[] | null>(null);

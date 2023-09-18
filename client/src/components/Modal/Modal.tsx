@@ -1,4 +1,4 @@
-import { MouseEvent, useReducer, useRef, useState } from 'react';
+import { MouseEvent, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 
 import LoginForm from '../LoginForm/LoginForm';
@@ -8,11 +8,7 @@ import './modal.scss';
 import Button from '../Button/Button';
 import { useCustomerContext } from '../../context/CustomerContext';
 
-type Props = {
-  toggleModal: () => void;
-};
-
-const Modal = (props: Props) => {
+const Modal = () => {
   const [showLogIn, setShowLogin] = useState(true);
   const { toggleModal } = useCustomerContext();
 

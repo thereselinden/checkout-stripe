@@ -1,8 +1,6 @@
 import ProductList from '../../components/ProductList/ProductList';
 
-type Props = {};
-
-const StartPage = (props: Props) => {
+const StartPage = () => {
   return (
     <>
       <h2>Products</h2>

@@ -5,18 +5,23 @@ import fs from 'fs/promises';
 import { initStripe } from '../stripe/stripe';
 import { rootPath } from '../server';
 import { IOrder } from '../interfaces/interface';
+import {
+  STRIPE_CONNECT_ERROR,
+  ORDER_SESSIONID_ERROR,
+  STRIPE_LINEITEMS_ERROR,
+  STRIPE_PRICE_OBJECT_ERROR,
+  ORDER_VERIFY_ERROR,
+} from '../variables/variables';
 
 const stripe = initStripe();
 
 export const verifyOrder = async (req: Request, res: Response) => {
   try {
     const { sessionId } = req.body;
-    if (!stripe)
-      return res.status(500).json({ message: 'Could not connect to stripe' });
+    if (!stripe) return res.status(500).json({ message: STRIPE_CONNECT_ERROR });
 
-    //const { sessionId } = req.body;
-    if (!req.body.sessionId)
-      return res.status(400).json({ message: 'No sessionId provided' });
+    if (!sessionId)
+      return res.status(400).json({ message: ORDER_SESSIONID_ERROR });
 
     const session = await stripe.checkout.sessions.retrieve(sessionId, {
       expand: ['line_items'],
@@ -29,7 +34,7 @@ export const verifyOrder = async (req: Request, res: Response) => {
       session.line_items;
 
     if (!lineItems)
-      return res.status(400).json({ message: 'Could not get line items' });
+      return res.status(400).json({ message: STRIPE_LINEITEMS_ERROR });
 
     const orderItems = Promise.all(
       lineItems.data.map(async (item: Stripe.LineItem) => {
@@ -54,7 +59,7 @@ export const verifyOrder = async (req: Request, res: Response) => {
         } else {
           res
             .status(200)
-            .json({ message: `Price information not available for ${item}` });
+            .json({ message: `${STRIPE_PRICE_OBJECT_ERROR} ${item}` });
         }
       })
     );
@@ -75,16 +80,16 @@ export const verifyOrder = async (req: Request, res: Response) => {
 
     res.status(200).json({ verified: true, data: order });
   } catch (err) {
-    res.status(400).json('Could not verify order');
+    console.log('catch verify order', err);
+    res.status(400).json({ message: ORDER_VERIFY_ERROR });
   }
 };
 
-//! order should not be any
 const saveOrder = async (order: any, sessionId: string) => {
   const dataFilePath = `${rootPath}/data/orders.json`;
   const fileData = await fs.readFile(dataFilePath);
 
-  let orders = [];
+  let orders: IOrder[] = [];
 
   // check if file contains data, update users array with that data
   if (fileData.length > 1) {
@@ -116,23 +121,19 @@ export const getOrders = async (req: Request, res: Response) => {
     const fileData = await fs.readFile(dataFilePath);
     const fileContent = fileData.toString();
 
-    if (fileContent.length < 1) {
+    if (fileContent.length < 1)
       return res.status(200).json({ message: 'No orders available' });
-    }
 
-    const orders = JSON.parse(fileContent);
+    const orders: IOrder[] = JSON.parse(fileContent);
 
     // filter orders data
     const filteredOrders = orders.filter(
       order => order.customer.id === customer
     );
 
-    // return filtered orders data
-    console.log('customer', customer);
-
     res.status(200).json({ orders: filteredOrders });
   } catch (err) {
-    console.log('err get orders', err);
+    console.error('err get orders', err);
     res.status(400).json({ message: 'Could not get orders' });
   }
 };

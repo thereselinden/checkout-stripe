@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import InputField from '../InputField/InputField';
 import Button from '../Button/Button';
 import { IRegisterForm } from '../../interfaces/interfaces';
 import { registerSchema } from '../../utils/validateSchema';
@@ -53,7 +52,7 @@ const RegisterForm = ({ toggleShowLogin }: Props) => {
         setErrorMsg(data.message);
       }
       setIsLoading(false);
-    } catch (err: any) {
+    } catch (err) {
       setErrorMsg((err as Error).message);
       setIsLoading(false);
     }

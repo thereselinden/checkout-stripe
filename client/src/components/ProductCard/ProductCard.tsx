@@ -19,12 +19,13 @@ const ProductCard = ({ product, handleAddToCart }: Props) => {
           className="product-img"
         />
         <div className="card-body">
-          <h4 className="card-title">{product.name}</h4>
-          <p>
-            {formatPrice(product.default_price.unit_amount)}{' '}
-            {product.default_price.currency.toUpperCase()}
-          </p>
-
+          <div>
+            <h4 className="card-title">{product.name}</h4>
+            <p>
+              {formatPrice(product.default_price.unit_amount)}{' '}
+              {product.default_price.currency.toUpperCase()}
+            </p>
+          </div>
           <Button
             text="Add to cart"
             type="button"

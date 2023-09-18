@@ -1,14 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { IOrder } from '../../interfaces/interfaces';
 import { formatDate, formatPrice } from '../../utils/helpers';
 import { useCustomerContext } from '../../context/CustomerContext';
 
 import './confirmationPage.scss';
 
-type Props = {};
-
-const ConfirmationPage = (props: Props) => {
+const ConfirmationPage = () => {
   const [isPaymentVerified, setIsPaymentVerified] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -16,15 +14,11 @@ const ConfirmationPage = (props: Props) => {
   const { user } = useCustomerContext();
   const [searchParams] = useSearchParams();
   const query = searchParams.get('session_id');
-  const navigate = useNavigate();
 
   const firstMount = useRef(true);
 
   useEffect(() => {
-    console.log(firstMount.current);
     const verifyOrder = async () => {
-      console.log('verify order');
-
       setIsLoading(true);
       setErrorMsg(null);
       try {
@@ -43,7 +37,6 @@ const ConfirmationPage = (props: Props) => {
         );
 
         const data = await response.json();
-        console.log('data', data);
         if (!response.ok) {
           setIsLoading(false);
           setErrorMsg(data.message);
@@ -69,15 +62,12 @@ const ConfirmationPage = (props: Props) => {
     <>
       {isLoading && <p>Processing order....</p>}
       {errorMsg && <p>{errorMsg}</p>}
-      {isPaymentVerified && order && (
+      {isPaymentVerified && order && user && (
         <div className="card confirmation-container">
           <div className="order-information">
             <h3>Thank you for your order!</h3>
             <p>Hi, {user.firstname}</p>
-            <p>
-              Your order with order number has been confirmed and will be
-              shipped soon.
-            </p>
+            <p>Your order has been confirmed and will be shipped soon.</p>
           </div>
           <hr />
           <div className="order-details">

@@ -2,7 +2,6 @@ import { PropsWithChildren, createContext, useContext } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { ICartContext, ICartItem, IProduct } from '../interfaces/interfaces';
 
-const defaultValue = {};
 export const CartContext = createContext<ICartContext>(null as any);
 
 export const useCartContext = () => useContext(CartContext);

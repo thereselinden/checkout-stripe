@@ -6,9 +6,7 @@ import { useCustomerContext } from '../../context/CustomerContext';
 import { ILoginForm } from '../../interfaces/interfaces';
 import { loginSchema } from '../../utils/validateSchema';
 
-type Props = {};
-
-const LoginForm = (props: Props) => {
+const LoginForm = () => {
   const defaultValue = {
     email: '',
     password: '',

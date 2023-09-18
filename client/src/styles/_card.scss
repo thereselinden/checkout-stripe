@@ -8,7 +8,6 @@
   display: grid;
   align-items: center;
   gap: 1rem;
-  //width: 100%;
 
   .card-body {
     font-size: $base-font-size;
@@ -16,9 +15,14 @@
     grid-gap: 0.4rem;
     padding: math.div($base-padding, 2);
 
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
     .card-title {
       font-size: $font-size-md;
-      padding-bottom: $base-padding;
       font-weight: bold;
     }
   }

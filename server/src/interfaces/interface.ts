@@ -34,6 +34,6 @@ export interface IOrder {
   order_id: string;
   created: number;
   customer: ICustomer;
-  products: IProduct[] | undefined[];
+  products?: IProduct[] | undefined[];
   amount_total: number | null;
 }

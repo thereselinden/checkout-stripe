@@ -5,6 +5,18 @@ import { IUser, IUserWithoutPass } from '../interfaces/interface';
 import { initStripe } from '../stripe/stripe';
 import Stripe from 'stripe';
 import { rootPath } from '../server';
+
+import {
+  CUSTOMER_DUPLICATE_VALUES,
+  CUSTOMER_AUTH_ERROR,
+  CUSTOMER_CREATED,
+  CUSTOMER_ERROR,
+  CUSTOMER_LOGIN_CREDENTIALS_ERROR,
+  CUSTOMER_LOGIN_ERROR,
+  CUSTOMER_LOGUT_ERROR,
+  CUSTOMER_STRIPE_ERROR,
+} from '../variables/variables';
+
 const stripe = initStripe();
 
 export const register = async (req: Request, res: Response) => {
@@ -38,7 +50,7 @@ export const register = async (req: Request, res: Response) => {
 
     // check if req body email already exist in list
     if (users.some(user => user.email === email)) {
-      return res.status(409).json({ message: 'Email already registered' });
+      return res.status(409).json({ message: CUSTOMER_DUPLICATE_VALUES });
     }
 
     // create the customer on Stripe
@@ -53,9 +65,7 @@ export const register = async (req: Request, res: Response) => {
     // TODO kolla att stripe reg gick bra
     console.log('stripecustomer', stripeCustomer);
     if (!stripeCustomer?.id)
-      return res
-        .status(400)
-        .json({ message: 'Could not create customer on stripe' });
+      return res.status(400).json({ message: CUSTOMER_STRIPE_ERROR });
 
     // update newUser obj with id after stripe customer created
     newUser = { ...newUser, id: stripeCustomer?.id };
@@ -66,10 +76,10 @@ export const register = async (req: Request, res: Response) => {
     // add users array to json file
     await fs.writeFile(dataFilePath, JSON.stringify(users, null, 2));
 
-    res.status(201).json({ message: 'User created' });
+    res.status(201).json({ message: CUSTOMER_CREATED });
   } catch (err) {
     console.log(err);
-    res.status(400).json({ message: 'Could not create user', err });
+    res.status(400).json({ message: CUSTOMER_ERROR });
   }
   // res.status(201).json({ message: 'Customer register' });
 };
@@ -95,7 +105,9 @@ export const login = async (req: Request, res: Response) => {
     );
 
     if (!registeredUser || !isPasswordCorrect)
-      return res.status(404).json({ message: 'Wrong credentials' });
+      return res
+        .status(404)
+        .json({ message: CUSTOMER_LOGIN_CREDENTIALS_ERROR });
 
     const user: IUserWithoutPass = {
       id: registeredUser.id,
@@ -108,13 +120,13 @@ export const login = async (req: Request, res: Response) => {
     res.status(200).json(user);
   } catch (err) {
     console.log(err);
-    res.status(400).json({ message: 'Could not login' });
+    res.status(400).json({ message: CUSTOMER_LOGIN_ERROR });
   }
 };
 
 export const logout = async (req: Request, res: Response) => {
   if (!req.session?.id) {
-    return res.status(400).json({ message: 'Already logged out' });
+    return res.status(400).json({ message: CUSTOMER_LOGUT_ERROR });
   }
   req.session = null;
   res.status(200).json(null);
@@ -123,7 +135,7 @@ export const logout = async (req: Request, res: Response) => {
 export const authorize = async (req: Request, res: Response) => {
   try {
     if (!req.session?.id) {
-      return res.status(401).json({ message: 'User is not logged in' });
+      return res.status(401).json({ message: CUSTOMER_AUTH_ERROR });
     }
 
     res.status(200).json(req.session);
