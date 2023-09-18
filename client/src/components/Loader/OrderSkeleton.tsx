@@ -1,8 +1,6 @@
 import Skeleton from "react-loading-skeleton";
 
-type Props = {};
-
-const OrderSkeleton = (props: Props) => {
+const OrderSkeleton = () => {
   return (
     <>
       <h2>

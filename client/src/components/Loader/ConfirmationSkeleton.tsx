@@ -1,9 +1,7 @@
 import Skeleton from "react-loading-skeleton";
 import "./confirmationSkeleton.scss";
 
-type Props = {};
-
-const ConfirmationSkeleton = (props: Props) => {
+const ConfirmationSkeleton = () => {
   return (
     <div className='card confirmation-container'>
       <div className='order-information'>
