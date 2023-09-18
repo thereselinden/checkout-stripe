@@ -1,0 +1,11 @@
+@use "sass:math";
+@import "../../styles/variables";
+
+.skeleton-card {
+  grid-template-rows: 2fr 1fr;
+  padding: math.div($base-padding, 2);
+}
+
+.skeleton-btn {
+  padding: $base-padding;
+}
