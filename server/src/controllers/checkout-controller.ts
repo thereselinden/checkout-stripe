@@ -11,10 +11,11 @@ const CLIENT_URL = process.env.CLIENT_URL;
 export const checkoutSession = async (req: Request, res: Response) => {
   try {
     const { cartItems, user } = req.body;
+
     if (!stripe) return res.status(500).json({ message: STRIPE_CONNECT_ERROR });
 
     const session = await stripe.checkout.sessions.create({
-      line_items: cartItems.map(item => {
+      line_items: cartItems.map((item: any) => {
         return {
           price: item.product.default_price.id,
           quantity: item.quantity,
