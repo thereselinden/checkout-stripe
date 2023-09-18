@@ -14,15 +14,7 @@ const ConfirmationSkeleton = (props: Props) => {
           <Skeleton count={2} />
         </p>
       </div>
-      <hr />
-      <div className='order-details'>
-        <h4>
-          <Skeleton />
-        </h4>
-        <p>
-          <Skeleton count={2} />{" "}
-        </p>
-      </div>
+
       <hr />
       <h5>
         <Skeleton />
@@ -36,11 +28,6 @@ const ConfirmationSkeleton = (props: Props) => {
           <Skeleton count={3} width={"100%"} height={10} />
         </div>
       </article>
-
-      <hr />
-      <h4>
-        <Skeleton />
-      </h4>
     </div>
   );
 };
