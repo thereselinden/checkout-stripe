@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
-import { IProduct } from '../../interfaces/interfaces';
-import ProductCard from '../ProductCard/ProductCard';
-import { useCartContext } from '../../context/CartContext';
+import { useEffect, useState } from "react";
+import { IProduct } from "../../interfaces/interfaces";
+import ProductCard from "../ProductCard/ProductCard";
+import { useCartContext } from "../../context/CartContext";
+import CardSkeleton from "../Loader/CardSkeleton";
 
 const ProductList = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -18,7 +19,7 @@ const ProductList = () => {
     const getProducts = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch('http://localhost:3000/api/products/');
+        const response = await fetch("http://localhost:3000/api/products/");
         const data = await response.json();
 
         if (response.ok) {
@@ -38,9 +39,10 @@ const ProductList = () => {
   }, []);
 
   return (
-    <section className="row">
-      {isLoading && <p>Getting products....</p>}
+    <section className='row'>
+      {isLoading && <CardSkeleton cards={4} />}
       {errorMsg && <p>{errorMsg}</p>}
+
       {products &&
         products.map((product: IProduct) => (
           <ProductCard
