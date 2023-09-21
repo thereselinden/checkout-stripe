@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 type Credentials = "include" | "same-origin" | "omit";
@@ -17,7 +17,7 @@ interface FetchResult<T> {
 }
 
 const useFetch = <T>() => {
-  const [url, setUrl] = useState("");
+  //const [url, setUrl] = useState("");
   const [result, setResult] = useState<FetchResult<T>>({
     isLoading: false,
     error: null,
@@ -25,7 +25,7 @@ const useFetch = <T>() => {
 
   const fetchData = async (url: string, options: RequestOptions) => {
     setResult({ isLoading: true });
-    setUrl(url);
+    //setUrl(url);
     try {
       const response = await fetch(url, {
         method: options.method ? options.method : "GET",
