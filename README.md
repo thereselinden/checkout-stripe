@@ -6,7 +6,7 @@ Using React Typescript. Project was initilized using command `npm create @vite/l
 
 ## Set up and run project
 
-Start client vite server in dev mode using commands below.
+### Start client vite server in dev mode using commands below.
 
 `cd client`
 
@@ -16,7 +16,11 @@ Start client vite server in dev mode using commands below.
 
 Click provided localhost link in terminal
 
-Start backend server
+#### Create .env file
+
+See variables used in `.env-example` file and create them in your `.env` file
+
+### Start backend server
 
 `cd server`
 
@@ -24,7 +28,7 @@ Start backend server
 
 `npm run dev`
 
-### Create .env file
+#### Create .env file
 
 See variables used in `.env-example` file and create them in your `.env` file
 
