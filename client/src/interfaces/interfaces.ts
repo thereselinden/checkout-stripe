@@ -5,11 +5,14 @@ export interface ICartContext {
 }
 
 export interface ICustomerContext {
-  login: (credentials: ILoginForm) => Promise<void>;
-  isLoggedIn: boolean;
-  errorMsg: string | null;
+  // login: (credentials: ILoginForm) => Promise<void>;
+  login: (formData: ILoginForm) => Promise<void>;
+  // isLoggedIn: boolean;
+  // errorMsg: string | null;
+  errorMsg: Error | unknown;
   isLoading: boolean;
-  user: IUser | null;
+  //user: IUser | null;
+  user: IUser | undefined;
   logout: () => Promise<void>;
   toggleModal: () => void;
   isModalOpen: boolean;
