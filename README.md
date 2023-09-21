@@ -45,3 +45,9 @@ See variables used in `.env-example` file and create them in your `.env` file
 - Vite
 - Stripe
 - Express
+
+## Improvment
+
+- Better strucutre of code
+- Functionality to increase / decrease cart quantity
+- Show more information about placed order
