@@ -11,15 +11,13 @@ import useFetch from "../../hooks/useFetch";
 
 const ConfirmationPage = () => {
   const [isPaymentVerified, setIsPaymentVerified] = useState(false);
-  //const [isLoading, setIsLoading] = useState(false);
-  //const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [order, setOrder] = useState<IOrder | null>(null);
   const { user } = useCustomerContext();
   const { setCartItems } = useCartContext();
 
   const [searchParams] = useSearchParams();
   const query = searchParams.get("session_id");
-  const { fetchData, isLoading, error: errorMsg, data } = useFetch<IOrder[]>();
+  const { fetchData, isLoading, error: errorMsg } = useFetch<IOrder[]>();
 
   const firstMount = useRef(true);
   const navigate = useNavigate();
