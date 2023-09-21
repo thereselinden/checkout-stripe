@@ -5,13 +5,9 @@ export interface ICartContext {
 }
 
 export interface ICustomerContext {
-  // login: (credentials: ILoginForm) => Promise<void>;
   login: (formData: ILoginForm) => Promise<void>;
-  // isLoggedIn: boolean;
-  // errorMsg: string | null;
   errorMsg: Error | unknown;
   isLoading: boolean;
-  //user: IUser | null;
   user: IUser | undefined;
   logout: () => Promise<void>;
   toggleModal: () => void;
@@ -58,20 +54,31 @@ interface ICustomer {
   email: string;
 }
 
+export interface IProduct {
+  discount: number;
+  price: number;
+  product_id: string;
+  product_image: string;
+  product_name: string;
+  quantity: number;
+  total_price: number;
+}
+
 export interface IOrder {
-  order_id: string;
-  created: number;
-  customer: ICustomer;
-  products: [
-    {
-      product_id: string;
-      product_name: string;
-      product_image: string;
-      price: number;
-      quantity: number;
-      discount: number;
-      total_price: number;
-    }
-  ];
   amount_total: number;
+  created: number;
+  order_id: string;
+  customer: ICustomer;
+  products: IProduct[];
+  // products: [
+  //   {
+  //     discount: number;
+  //     price: number;
+  //     product_id: string;
+  //     product_image: string;
+  //     product_name: string;
+  //     quantity: number;
+  //     total_price: number;
+  //   }
+  // ];
 }
