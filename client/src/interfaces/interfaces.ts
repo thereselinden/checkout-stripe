@@ -70,15 +70,4 @@ export interface IOrder {
   order_id: string;
   customer: ICustomer;
   products: IProduct[];
-  // products: [
-  //   {
-  //     discount: number;
-  //     price: number;
-  //     product_id: string;
-  //     product_image: string;
-  //     product_name: string;
-  //     quantity: number;
-  //     total_price: number;
-  //   }
-  // ];
 }
