@@ -1,14 +1,16 @@
-import { PropsWithChildren } from "react";
-import { Navigate } from "react-router-dom";
+import { PropsWithChildren, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { useCustomerContext } from "../context/CustomerContext";
 
 const ProtectedRoute = ({ children }: PropsWithChildren) => {
-  const { user } = useCustomerContext();
-
-  if (!user) {
-    return <Navigate to='/' replace />;
-  }
+  const { isAuthenticated } = useCustomerContext();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!isAuthenticated) {
+      return navigate("/");
+    }
+  }, [navigate, isAuthenticated]);
 
   return children;
 };
