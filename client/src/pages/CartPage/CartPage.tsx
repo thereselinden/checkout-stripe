@@ -10,9 +10,15 @@ import {
 } from "../../utils/helpers";
 
 import "./cartPage.scss";
+import useFetch from "../../hooks/useFetch";
+
+interface ISessionUrl {
+  url: string;
+}
 
 const CartPage = () => {
-  const { isLoggedIn, toggleModal, user } = useCustomerContext();
+  const { toggleModal, user } = useCustomerContext();
+  const { fetchData, isLoading } = useFetch<ISessionUrl>();
   const { cartItems } = useCartContext();
   const navigate = useNavigate();
 
@@ -22,22 +28,15 @@ const CartPage = () => {
       user: user?.id,
     };
 
-    try {
-      const response = await fetch(
-        "http://localhost:3000/api/checkout/create-checkout-session",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(cart),
-        }
-      );
-      const data = await response.json();
-      window.location.replace(data.url);
-    } catch (error) {
-      console.log(error);
-    }
+    const result = await fetchData(
+      "http://localhost:3000/api/checkout/create-checkout-session",
+      {
+        method: "POST",
+        body: cart,
+      }
+    );
+
+    if (result) window.location.replace(result.data.url);
   };
 
   const handleLogin = () => {
@@ -47,6 +46,7 @@ const CartPage = () => {
   const cartQuantity = orderTotalQuantity(cartItems);
   return (
     <>
+      {isLoading && <p>Loading....</p>}
       <h2>Your cart</h2>
       {cartItems.length > 0 ? (
         <section className='cart-container'>
@@ -84,7 +84,7 @@ const CartPage = () => {
             <p>Total price: {totalPrice(cartItems)} SEK</p>
             <hr />
             <div className='order-action'>
-              {!isLoggedIn ? (
+              {!user ? (
                 <div>
                   <p>Login to place order</p>
                   <Button
@@ -98,7 +98,7 @@ const CartPage = () => {
                 <Button
                   type='button'
                   text='Go to Checkout'
-                  disabled={!isLoggedIn}
+                  disabled={!user}
                   onClick={handleCheckout}
                   className='btn-secondary'
                 />

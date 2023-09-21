@@ -1,10 +1,11 @@
-import { useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
-import Button from '../Button/Button';
-import { IRegisterForm } from '../../interfaces/interfaces';
-import { registerSchema } from '../../utils/validateSchema';
+import Button from "../Button/Button";
+import { IRegisterForm } from "../../interfaces/interfaces";
+import { registerSchema } from "../../utils/validateSchema";
+import useFetch from "../../hooks/useFetch";
 
 type Props = {
   toggleShowLogin: () => void;
@@ -12,13 +13,12 @@ type Props = {
 
 const RegisterForm = ({ toggleShowLogin }: Props) => {
   const defaultValues = {
-    firstname: '',
-    lastname: '',
-    email: '',
-    password: '',
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
   };
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const { fetchData, isLoading, error: errorMsg } = useFetch<IRegisterForm>();
 
   const {
     register,
@@ -29,69 +29,54 @@ const RegisterForm = ({ toggleShowLogin }: Props) => {
     resolver: yupResolver(registerSchema),
   });
 
-  const handleRegisterCustomer: SubmitHandler<IRegisterForm> = async (
-    formData
+  const handleRegisterCustomer = async (
+    formData: IRegisterForm
   ): Promise<void> => {
-    setIsLoading(true);
-    setErrorMsg(null);
-    try {
-      const response = await fetch(
-        'http://localhost:3000/api/customer/register',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData),
-        }
-      );
-      const data = await response.json();
-
-      if (response.ok) {
-        setErrorMsg(null);
-        toggleShowLogin();
-      } else {
-        setErrorMsg(data.message);
+    const result = await fetchData(
+      "http://localhost:3000/api/customer/register",
+      {
+        method: "POST",
+        body: formData,
       }
-      setIsLoading(false);
-    } catch (err) {
-      setErrorMsg((err as Error).message);
-      setIsLoading(false);
-    }
+    );
+
+    if (result) toggleShowLogin();
   };
 
   return (
     <div>
       <h2>Register</h2>
       <input
-        type="text"
-        placeholder="enter firstname"
-        {...register('firstname')}
+        type='text'
+        placeholder='enter firstname'
+        {...register("firstname")}
       />
-      <p className="text-error">{errors.firstname?.message}</p>
+      <p className='text-error'>{errors.firstname?.message}</p>
 
       <input
-        type="text"
-        placeholder="enter lastname"
-        {...register('lastname')}
+        type='text'
+        placeholder='enter lastname'
+        {...register("lastname")}
       />
-      <p className="text-error">{errors.lastname?.message}</p>
+      <p className='text-error'>{errors.lastname?.message}</p>
 
-      <input type="email" placeholder="enter email" {...register('email')} />
-      <p className="text-error">{errors.email?.message}</p>
+      <input type='email' placeholder='enter email' {...register("email")} />
+      <p className='text-error'>{errors.email?.message}</p>
 
       <input
-        type="password"
-        placeholder="enter password"
-        {...register('password')}
+        type='password'
+        placeholder='enter password'
+        {...register("password")}
       />
-      <p className="text-error">{errors.password?.message}</p>
+      <p className='text-error'>{errors.password?.message}</p>
 
-      {errorMsg && <p className="text-error">{errorMsg}</p>}
+      {errorMsg && <p className='text-error'>{errorMsg}</p>}
 
       <Button
-        text="Create Account"
+        text='Create Account'
         onClick={handleSubmit(handleRegisterCustomer)}
         disabled={false}
-        className="btn-secondary btn-register"
+        className='btn-secondary btn-register'
       />
 
       {isLoading && <p>Loading....</p>}

@@ -7,17 +7,19 @@ import { useCartContext } from "../../context/CartContext";
 
 import "./confirmationPage.scss";
 import ConfirmationSkeleton from "../../components/Loader/ConfirmationSkeleton";
+import useFetch from "../../hooks/useFetch";
 
 const ConfirmationPage = () => {
   const [isPaymentVerified, setIsPaymentVerified] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  //const [isLoading, setIsLoading] = useState(false);
+  //const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [order, setOrder] = useState<IOrder | null>(null);
   const { user } = useCustomerContext();
   const { setCartItems } = useCartContext();
 
   const [searchParams] = useSearchParams();
   const query = searchParams.get("session_id");
+  const { fetchData, isLoading, error: errorMsg, data } = useFetch<IOrder[]>();
 
   const firstMount = useRef(true);
   const navigate = useNavigate();
@@ -26,50 +28,32 @@ const ConfirmationPage = () => {
     if (!query) navigate("/");
 
     const verifyOrder = async () => {
-      setIsLoading(true);
-      setErrorMsg(null);
-      try {
-        const session = {
-          sessionId: query,
-        };
-        const response = await fetch(
-          "http://localhost:3000/api/order/verify-order",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(session),
-          }
-        );
+      const session = {
+        sessionId: query,
+      };
 
-        const data = await response.json();
-        if (!response.ok) {
-          setIsLoading(false);
-          setErrorMsg(data.message);
-        } else {
-          setIsPaymentVerified(data.verified);
-          setOrder(data.data);
-          setIsLoading(false);
-          setCartItems([]);
+      const result = await fetchData(
+        "http://localhost:3000/api/order/verify-order",
+        {
+          method: "POST",
+          body: session,
         }
-      } catch (err) {
-        console.log(err);
-        setIsPaymentVerified(false);
-        setIsLoading(false);
-      }
+      );
+      setOrder(result?.data.data);
+      setIsPaymentVerified(result?.data.verified);
+      setCartItems([]);
     };
 
     if (firstMount.current) {
       verifyOrder();
       firstMount.current = false;
     }
-  }, [query, navigate, setCartItems]);
+  }, [query, navigate, setCartItems, fetchData]);
 
   return (
     <>
       {isLoading && <ConfirmationSkeleton />}
-      {errorMsg && <p>{errorMsg}</p>}
+      {errorMsg && <p>{errorMsg.toString()}</p>}
       {isPaymentVerified && order && user && (
         <div className='card confirmation-container'>
           <div className='order-information'>
