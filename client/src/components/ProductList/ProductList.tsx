@@ -6,6 +6,8 @@ import CardSkeleton from "../Loader/CardSkeleton";
 import useFetch from "../../hooks/useFetch";
 
 const ProductList = () => {
+  const url = import.meta.env.VITE_BASE_URL;
+
   const {
     fetchData,
     error: errorMsg,
@@ -20,7 +22,7 @@ const ProductList = () => {
   };
 
   useEffect(() => {
-    fetchData("http://localhost:3000/api/products/", { method: "GET" });
+    fetchData(`${url}/api/products/`, { method: "GET" });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

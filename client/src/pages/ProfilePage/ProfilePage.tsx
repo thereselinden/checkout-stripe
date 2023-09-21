@@ -14,6 +14,7 @@ const ProfilePage = () => {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [orders, setOrders] = useState<IOrder[] | null>(null);
   const { user } = useCustomerContext();
+  const url = import.meta.env.VITE_BASE_URL;
 
   const firstMount = useRef(true);
 
@@ -22,7 +23,7 @@ const ProfilePage = () => {
       setIsLoading(true);
       setErrorMsg(null);
       try {
-        const response = await fetch("http://localhost:3000/api/orders", {
+        const response = await fetch(`${url}/api/orders`, {
           credentials: "include",
         });
         const data = await response.json();
@@ -44,7 +45,7 @@ const ProfilePage = () => {
       getOrders();
       firstMount.current = false;
     }
-  }, []);
+  }, [url]);
 
   return (
     <>

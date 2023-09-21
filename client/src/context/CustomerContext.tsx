@@ -18,6 +18,8 @@ export const useCustomerContext = () => useContext(CustomerContext);
 const CustomerContextProvider = ({ children }: PropsWithChildren) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const url = import.meta.env.VITE_BASE_URL;
+
   const {
     fetchData,
     data: user,
@@ -32,7 +34,7 @@ const CustomerContextProvider = ({ children }: PropsWithChildren) => {
   }, [isModalOpen]);
 
   useEffect(() => {
-    fetchData("http://localhost:3000/api/customer/authorize", {
+    fetchData(`${url}/api/customer/authorize`, {
       method: "GET",
       credentials: "include",
     });
@@ -40,7 +42,7 @@ const CustomerContextProvider = ({ children }: PropsWithChildren) => {
   }, []);
 
   const login = async (formData: ILoginForm): Promise<void> => {
-    const result = await fetchData("http://localhost:3000/api/customer/login", {
+    const result = await fetchData(`${url}/api/customer/login`, {
       method: "POST",
       body: formData,
       credentials: "include",
@@ -49,7 +51,7 @@ const CustomerContextProvider = ({ children }: PropsWithChildren) => {
   };
 
   const logout = async (): Promise<void> => {
-    await fetchData("http://localhost:3000/api/customer/logout", {
+    await fetchData(`${url}/api/customer/logout`, {
       method: "POST",
       credentials: "include",
     });

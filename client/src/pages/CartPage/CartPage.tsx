@@ -4,6 +4,7 @@ import { useCartContext } from "../../context/CartContext";
 import { useCustomerContext } from "../../context/CustomerContext";
 import { ICartItem } from "../../interfaces/interfaces";
 import {
+  cartNumProducts,
   formatPrice,
   orderTotalQuantity,
   totalPrice,
@@ -21,6 +22,7 @@ const CartPage = () => {
   const { fetchData, isLoading } = useFetch<ISessionUrl>();
   const { cartItems } = useCartContext();
   const navigate = useNavigate();
+  const url = import.meta.env.VITE_BASE_URL;
 
   const handleCheckout = async () => {
     const cart = {
@@ -29,7 +31,7 @@ const CartPage = () => {
     };
 
     const result = await fetchData(
-      "http://localhost:3000/api/checkout/create-checkout-session",
+      `${url}/api/checkout/create-checkout-session`,
       {
         method: "POST",
         body: cart,
@@ -43,7 +45,8 @@ const CartPage = () => {
     toggleModal();
   };
 
-  const cartQuantity = orderTotalQuantity(cartItems);
+  const cartQuantity = cartNumProducts(cartItems);
+
   return (
     <>
       {isLoading && <p>Loading....</p>}
@@ -78,7 +81,9 @@ const CartPage = () => {
           <div className='order-summary-container col-12-xs'>
             <div>
               <h3>Order summary</h3>
-              <small>{cartQuantity} products</small>
+              <small>
+                {cartQuantity} {cartQuantity < 2 ? "product" : "products"}
+              </small>
             </div>
             <hr />
             <p>Total price: {totalPrice(cartItems)} SEK</p>

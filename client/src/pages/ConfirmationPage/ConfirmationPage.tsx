@@ -18,6 +18,7 @@ const ConfirmationPage = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("session_id");
   const { fetchData, isLoading, error: errorMsg } = useFetch<IOrder[]>();
+  const url = import.meta.env.VITE_BASE_URL;
 
   const firstMount = useRef(true);
   const navigate = useNavigate();
@@ -30,13 +31,10 @@ const ConfirmationPage = () => {
         sessionId: query,
       };
 
-      const result = await fetchData(
-        "http://localhost:3000/api/order/verify-order",
-        {
-          method: "POST",
-          body: session,
-        }
-      );
+      const result = await fetchData(`${url}/api/order/verify-order`, {
+        method: "POST",
+        body: session,
+      });
       setOrder(result?.data.data);
       setIsPaymentVerified(result?.data.verified);
       setCartItems([]);
@@ -46,7 +44,7 @@ const ConfirmationPage = () => {
       verifyOrder();
       firstMount.current = false;
     }
-  }, [query, navigate, setCartItems, fetchData]);
+  }, [query, navigate, setCartItems, fetchData, url]);
 
   return (
     <>

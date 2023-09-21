@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import Button from "../Button/Button";
@@ -12,6 +11,7 @@ type Props = {
 };
 
 const RegisterForm = ({ toggleShowLogin }: Props) => {
+  const url = import.meta.env.VITE_BASE_URL;
   const defaultValues = {
     firstname: "",
     lastname: "",
@@ -32,13 +32,10 @@ const RegisterForm = ({ toggleShowLogin }: Props) => {
   const handleRegisterCustomer = async (
     formData: IRegisterForm
   ): Promise<void> => {
-    const result = await fetchData(
-      "http://localhost:3000/api/customer/register",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const result = await fetchData(`${url}/api/customer/register`, {
+      method: "POST",
+      body: formData,
+    });
 
     if (result) toggleShowLogin();
   };
