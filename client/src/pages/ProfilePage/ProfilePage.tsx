@@ -7,11 +7,12 @@ import {
 import { useCustomerContext } from "../../context/CustomerContext";
 import Skeleton from "react-loading-skeleton";
 import OrderSkeleton from "../../components/Loader/OrderSkeleton";
+import { IOrder } from "../../interfaces/interfaces";
 
 const ProfilePage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [orders, setOrders] = useState<any[] | null>(null);
+  const [orders, setOrders] = useState<IOrder[] | null>(null);
   const { user } = useCustomerContext();
 
   const firstMount = useRef(true);
@@ -25,6 +26,7 @@ const ProfilePage = () => {
           credentials: "include",
         });
         const data = await response.json();
+
         if (!response.ok) {
           setErrorMsg(data.message);
           setIsLoading(false);
@@ -58,7 +60,7 @@ const ProfilePage = () => {
             <section key={order.order_id} className='list'>
               <div>
                 <p>{formatDate(order.created)}</p>
-                <small>{orderTotalQuantity(order.products)} product(s)</small>
+                <small>{orderTotalQuantity(order.products)}</small>
               </div>
               <p>{formatPrice(order.amount_total)} SEK</p>
             </section>
