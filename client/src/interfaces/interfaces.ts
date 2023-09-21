@@ -5,6 +5,7 @@ export interface ICartContext {
 }
 
 export interface ICustomerContext {
+  isAuthenticated: boolean;
   login: (formData: ILoginForm) => Promise<void>;
   errorMsg: Error | unknown;
   isLoading: boolean;

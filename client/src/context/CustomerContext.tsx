@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 import { ICustomerContext, ILoginForm, IUser } from "../interfaces/interfaces";
 import useFetch from "../hooks/useFetch";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 export const CustomerContext = createContext<ICustomerContext>(null as any);
 
@@ -17,6 +18,10 @@ export const useCustomerContext = () => useContext(CustomerContext);
 
 const CustomerContextProvider = ({ children }: PropsWithChildren) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useLocalStorage(
+    "authenticated",
+    false
+  );
 
   const url = import.meta.env.VITE_BASE_URL;
 
@@ -26,6 +31,8 @@ const CustomerContextProvider = ({ children }: PropsWithChildren) => {
     error: errorMsg,
     isLoading,
   } = useFetch<IUser>();
+
+  console.log("user contetxt", user);
 
   const navigate = useNavigate();
 
@@ -38,6 +45,7 @@ const CustomerContextProvider = ({ children }: PropsWithChildren) => {
       method: "GET",
       credentials: "include",
     });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -48,6 +56,7 @@ const CustomerContextProvider = ({ children }: PropsWithChildren) => {
       credentials: "include",
     });
     if (result) toggleModal();
+    if (result?.success) setIsAuthenticated(true);
   };
 
   const logout = async (): Promise<void> => {
@@ -56,6 +65,7 @@ const CustomerContextProvider = ({ children }: PropsWithChildren) => {
       credentials: "include",
     });
 
+    setIsAuthenticated(false);
     navigate("/");
   };
 
@@ -63,6 +73,7 @@ const CustomerContextProvider = ({ children }: PropsWithChildren) => {
     <CustomerContext.Provider
       value={{
         login,
+        isAuthenticated,
         errorMsg,
         isLoading,
         user,

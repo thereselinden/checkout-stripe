@@ -3,15 +3,11 @@ import Button from "../../components/Button/Button";
 import { useCartContext } from "../../context/CartContext";
 import { useCustomerContext } from "../../context/CustomerContext";
 import { ICartItem } from "../../interfaces/interfaces";
-import {
-  cartNumProducts,
-  formatPrice,
-  orderTotalQuantity,
-  totalPrice,
-} from "../../utils/helpers";
+import { cartNumProducts, formatPrice, totalPrice } from "../../utils/helpers";
+import useFetch from "../../hooks/useFetch";
+import LoadingSpinner from "../../components/Loader/LoadingSpinner";
 
 import "./cartPage.scss";
-import useFetch from "../../hooks/useFetch";
 
 interface ISessionUrl {
   url: string;
@@ -49,7 +45,7 @@ const CartPage = () => {
 
   return (
     <>
-      {isLoading && <p>Loading....</p>}
+      {isLoading && <LoadingSpinner />}
       <h2>Your cart</h2>
       {cartItems.length > 0 ? (
         <section className='cart-container'>
