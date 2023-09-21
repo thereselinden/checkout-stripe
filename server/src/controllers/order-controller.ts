@@ -11,6 +11,9 @@ import {
   STRIPE_LINEITEMS_ERROR,
   STRIPE_PRICE_OBJECT_ERROR,
   ORDER_VERIFY_ERROR,
+  CUSTOMER_AUTH_ERROR,
+  ORDER_NOTHING_TO_DISPLAY,
+  ORDER_ERROR,
 } from "../variables/variables";
 
 const stripe = initStripe();
@@ -80,7 +83,6 @@ export const verifyOrder = async (req: Request, res: Response) => {
 
     res.status(200).json({ verified: true, data: order });
   } catch (err) {
-    console.log("catch verify order", err);
     res.status(400).json({ message: ORDER_VERIFY_ERROR });
   }
 };
@@ -112,9 +114,7 @@ export const getOrders = async (req: Request, res: Response) => {
     const customer = req.session?.id;
 
     if (!customer)
-      return res
-        .status(403)
-        .json({ message: "Must be logged in for this request" });
+      return res.status(403).json({ message: CUSTOMER_AUTH_ERROR });
 
     // get orders data read file
     const dataFilePath = `${rootPath}/data/orders.json`;
@@ -122,7 +122,7 @@ export const getOrders = async (req: Request, res: Response) => {
     const fileContent = fileData.toString();
 
     if (fileContent.length < 1)
-      return res.status(200).json({ message: "No orders available" });
+      return res.status(200).json({ message: ORDER_NOTHING_TO_DISPLAY });
 
     const orders: IOrder[] = JSON.parse(fileContent);
 
@@ -134,6 +134,6 @@ export const getOrders = async (req: Request, res: Response) => {
     res.status(200).json({ orders: filteredOrders });
   } catch (err) {
     console.error("err get orders", err);
-    res.status(400).json({ message: "Could not get orders" });
+    res.status(400).json({ message: ORDER_ERROR });
   }
 };
