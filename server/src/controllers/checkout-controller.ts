@@ -31,7 +31,6 @@ export const checkoutSession = async (req: Request, res: Response) => {
     if (!session)
       return res.status(400).json({ message: STRIPE_SESSION_ERROR });
 
-    //res.status(200).json(session);
     res.status(200).json({ url: session.url });
   } catch (err) {
     console.log(err);
