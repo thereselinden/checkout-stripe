@@ -1,9 +1,9 @@
-import { Request, Response } from 'express';
-import { initStripe } from '../stripe/stripe';
+import { Request, Response } from "express";
+import { initStripe } from "../stripe/stripe";
 import {
   STRIPE_CONNECT_ERROR,
   STRIPE_SESSION_ERROR,
-} from '../variables/variables';
+} from "../variables/variables";
 
 const stripe = initStripe();
 const CLIENT_URL = process.env.CLIENT_URL;
@@ -22,7 +22,7 @@ export const checkoutSession = async (req: Request, res: Response) => {
         };
       }),
       customer: user,
-      mode: 'payment',
+      mode: "payment",
       allow_promotion_codes: true,
       success_url: `${CLIENT_URL}/confirmation?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: CLIENT_URL,
@@ -31,7 +31,8 @@ export const checkoutSession = async (req: Request, res: Response) => {
     if (!session)
       return res.status(400).json({ message: STRIPE_SESSION_ERROR });
 
-    res.status(200).json(session);
+    //res.status(200).json(session);
+    res.status(200).json({ url: session.url });
   } catch (err) {
     console.log(err);
     res.status(400).json({ message: STRIPE_SESSION_ERROR });
