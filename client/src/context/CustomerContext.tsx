@@ -36,6 +36,7 @@ const CustomerContextProvider = ({ children }: PropsWithChildren) => {
       method: "GET",
       credentials: "include",
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const login = async (formData: ILoginForm): Promise<void> => {
