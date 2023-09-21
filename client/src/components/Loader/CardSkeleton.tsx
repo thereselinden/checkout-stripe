@@ -30,15 +30,6 @@ const CardSkeleton = ({ cards }: Props) => {
             </div>
           </article>
         ))}
-
-      {/* <div>
-      <div>
-        <Skeleton circle width={40} height={40} />
-      </div>
-      <div>
-        <Skeleton count={4} style={{ marginBottom: ".6rem" }} />
-      </div>
-    </div> */}
     </>
   );
 };
