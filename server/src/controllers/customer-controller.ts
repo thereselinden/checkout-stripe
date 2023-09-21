@@ -1,10 +1,10 @@
-import { Request, Response } from 'express';
-import bcrypt from 'bcrypt';
-import fs from 'fs/promises';
-import { IUser, IUserWithoutPass } from '../interfaces/interface';
-import { initStripe } from '../stripe/stripe';
-import Stripe from 'stripe';
-import { rootPath } from '../server';
+import { Request, Response } from "express";
+import bcrypt from "bcrypt";
+import fs from "fs/promises";
+import { IUser, IUserWithoutPass } from "../interfaces/interface";
+import { initStripe } from "../stripe/stripe";
+import Stripe from "stripe";
+import { rootPath } from "../server";
 
 import {
   CUSTOMER_DUPLICATE_VALUES,
@@ -15,7 +15,7 @@ import {
   CUSTOMER_LOGIN_ERROR,
   CUSTOMER_LOGUT_ERROR,
   CUSTOMER_STRIPE_ERROR,
-} from '../variables/variables';
+} from "../variables/variables";
 
 const stripe = initStripe();
 
@@ -49,7 +49,7 @@ export const register = async (req: Request, res: Response) => {
     }
 
     // check if req body email already exist in list
-    if (users.some(user => user.email === email)) {
+    if (users.some((user) => user.email === email)) {
       return res.status(409).json({ message: CUSTOMER_DUPLICATE_VALUES });
     }
 
@@ -63,7 +63,7 @@ export const register = async (req: Request, res: Response) => {
     }
 
     // TODO kolla att stripe reg gick bra
-    console.log('stripecustomer', stripeCustomer);
+    console.log("stripecustomer", stripeCustomer);
     if (!stripeCustomer?.id)
       return res.status(400).json({ message: CUSTOMER_STRIPE_ERROR });
 
@@ -85,7 +85,7 @@ export const register = async (req: Request, res: Response) => {
 };
 
 export const login = async (req: Request, res: Response) => {
-  console.log('login', req.body);
+  console.log("login", req.body);
   try {
     const { email, password } = req.body;
     const dataFilePath = `${rootPath}/data/users.json`;
@@ -108,6 +108,7 @@ export const login = async (req: Request, res: Response) => {
       return res
         .status(404)
         .json({ message: CUSTOMER_LOGIN_CREDENTIALS_ERROR });
+    //.json(CUSTOMER_LOGIN_CREDENTIALS_ERROR)
 
     const user: IUserWithoutPass = {
       id: registeredUser.id,

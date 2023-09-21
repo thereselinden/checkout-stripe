@@ -1,21 +1,21 @@
-import { Link } from 'react-router-dom';
-import { BsCart2 } from 'react-icons/bs';
-import { AiOutlineLogin } from 'react-icons/ai';
-import { BiLogOutCircle } from 'react-icons/bi';
-import { CgProfile } from 'react-icons/cg';
-import { useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
+import { BsCart2 } from "react-icons/bs";
+import { AiOutlineLogin } from "react-icons/ai";
+import { BiLogOutCircle } from "react-icons/bi";
+import { CgProfile } from "react-icons/cg";
+import { useEffect, useState } from "react";
 
-import Modal from '../Modal/Modal';
-import Button from '../Button/Button';
-import { useCustomerContext } from '../../context/CustomerContext';
-import { useCartContext } from '../../context/CartContext';
-import { ICartItem } from '../../interfaces/interfaces';
+import Modal from "../Modal/Modal";
+import Button from "../Button/Button";
+import { useCustomerContext } from "../../context/CustomerContext";
+import { useCartContext } from "../../context/CartContext";
+import { ICartItem } from "../../interfaces/interfaces";
 
-import './header.scss';
+import "./header.scss";
 
 const Header = () => {
   const [numCartItems, setNumCartItems] = useState(0);
-  const { isLoggedIn, logout, isModalOpen, toggleModal } = useCustomerContext();
+  const { user, logout, isModalOpen, toggleModal } = useCustomerContext();
   const { cartItems } = useCartContext();
 
   useEffect(() => {
@@ -31,37 +31,37 @@ const Header = () => {
   return (
     <>
       <header>
-        <Link to={'/'}>
-          <p className="logo">Reloj</p>
+        <Link to={"/"}>
+          <p className='logo'>Reloj</p>
         </Link>
         <div>
-          <Link to="/cart">
+          <Link to='/cart'>
             {numCartItems > 0 && (
-              <p className="cart-items-number">{numCartItems}</p>
+              <p className='cart-items-number'>{numCartItems}</p>
             )}
             <Button
               Icon={BsCart2}
               disabled={false}
-              type="button"
-              className="btn-icon-secondary btn-cart"
+              type='button'
+              className='btn-icon-secondary btn-cart'
             />
           </Link>
-          {isLoggedIn ? (
+          {user ? (
             <>
-              <Link to="/profile">
+              <Link to='/profile'>
                 <Button
                   Icon={CgProfile}
                   disabled={false}
-                  type="button"
-                  className="btn-icon-secondary"
+                  type='button'
+                  className='btn-icon-secondary'
                 />
               </Link>
               <Button
                 Icon={BiLogOutCircle}
                 disabled={false}
-                type="button"
+                type='button'
                 onClick={handleLogout}
-                className="btn-icon-secondary"
+                className='btn-icon-secondary'
               />
             </>
           ) : (
@@ -69,8 +69,8 @@ const Header = () => {
               Icon={AiOutlineLogin}
               onClick={toggleModal}
               disabled={false}
-              type="button"
-              className="btn-icon-secondary"
+              type='button'
+              className='btn-icon-secondary'
             />
           )}
         </div>

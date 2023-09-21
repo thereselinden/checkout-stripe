@@ -1,13 +1,13 @@
-import { PropsWithChildren } from 'react';
-import { Navigate } from 'react-router-dom';
+import { PropsWithChildren } from "react";
+import { Navigate } from "react-router-dom";
 
-import { useCustomerContext } from '../context/CustomerContext';
+import { useCustomerContext } from "../context/CustomerContext";
 
 const ProtectedRoute = ({ children }: PropsWithChildren) => {
-  const { isLoggedIn } = useCustomerContext();
+  const { user } = useCustomerContext();
 
-  if (!isLoggedIn) {
-    return <Navigate to="/" replace />;
+  if (!user) {
+    return <Navigate to='/' replace />;
   }
 
   return children;

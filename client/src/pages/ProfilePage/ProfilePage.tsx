@@ -1,16 +1,20 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 import {
   formatDate,
   formatPrice,
   orderTotalQuantity,
-} from '../../utils/helpers';
-import { useCustomerContext } from '../../context/CustomerContext';
+} from "../../utils/helpers";
+import { useCustomerContext } from "../../context/CustomerContext";
+import Skeleton from "react-loading-skeleton";
+import OrderSkeleton from "../../components/Loader/OrderSkeleton";
+import { IOrder } from "../../interfaces/interfaces";
 
 const ProfilePage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [orders, setOrders] = useState<any[] | null>(null);
+  const [orders, setOrders] = useState<IOrder[] | null>(null);
   const { user } = useCustomerContext();
+  const url = import.meta.env.VITE_BASE_URL;
 
   const firstMount = useRef(true);
 
@@ -19,10 +23,11 @@ const ProfilePage = () => {
       setIsLoading(true);
       setErrorMsg(null);
       try {
-        const response = await fetch('http://localhost:3000/api/orders', {
-          credentials: 'include',
+        const response = await fetch(`${url}/api/orders`, {
+          credentials: "include",
         });
         const data = await response.json();
+
         if (!response.ok) {
           setErrorMsg(data.message);
           setIsLoading(false);
@@ -40,11 +45,11 @@ const ProfilePage = () => {
       getOrders();
       firstMount.current = false;
     }
-  }, []);
+  }, [url]);
 
   return (
     <>
-      {isLoading && <p>Getting orders....</p>}
+      {isLoading && <OrderSkeleton />}
       {errorMsg && <p>{errorMsg}</p>}
 
       {orders && user ? (
@@ -52,11 +57,11 @@ const ProfilePage = () => {
           <h2>Orders</h2>
           <h3>Hi, {user.firstname}</h3>
 
-          {orders.map(order => (
-            <section key={order.order_id} className="list">
+          {orders.map((order) => (
+            <section key={order.order_id} className='list'>
               <div>
                 <p>{formatDate(order.created)}</p>
-                <small>{orderTotalQuantity(order.products)} product(s)</small>
+                <small>{orderTotalQuantity(order.products)}</small>
               </div>
               <p>{formatPrice(order.amount_total)} SEK</p>
             </section>
@@ -64,8 +69,11 @@ const ProfilePage = () => {
         </>
       ) : (
         <>
-          <h2>Orders</h2>
-          <p>No orders here to be displayed!</p>
+          <h2>{isLoading ? <Skeleton /> : "Orders"}</h2>
+          <p>
+            {" "}
+            {isLoading ? <Skeleton /> : " No orders here to be displayed!"}
+          </p>
         </>
       )}
     </>

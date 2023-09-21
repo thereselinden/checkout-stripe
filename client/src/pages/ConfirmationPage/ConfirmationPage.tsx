@@ -1,76 +1,64 @@
-import { useEffect, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { IOrder } from '../../interfaces/interfaces';
-import { formatDate, formatPrice } from '../../utils/helpers';
-import { useCustomerContext } from '../../context/CustomerContext';
+import { useEffect, useRef, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { IOrder } from "../../interfaces/interfaces";
+import { formatDate, formatPrice } from "../../utils/helpers";
+import { useCustomerContext } from "../../context/CustomerContext";
+import { useCartContext } from "../../context/CartContext";
 
-import './confirmationPage.scss';
+import "./confirmationPage.scss";
+import ConfirmationSkeleton from "../../components/Loader/ConfirmationSkeleton";
+import useFetch from "../../hooks/useFetch";
 
 const ConfirmationPage = () => {
   const [isPaymentVerified, setIsPaymentVerified] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [order, setOrder] = useState<IOrder | null>(null);
   const { user } = useCustomerContext();
+  const { setCartItems } = useCartContext();
+
   const [searchParams] = useSearchParams();
-  const query = searchParams.get('session_id');
+  const query = searchParams.get("session_id");
+  const { fetchData, isLoading, error: errorMsg } = useFetch<IOrder[]>();
+  const url = import.meta.env.VITE_BASE_URL;
 
   const firstMount = useRef(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const verifyOrder = async () => {
-      setIsLoading(true);
-      setErrorMsg(null);
-      try {
-        const session = {
-          sessionId: query,
-        };
-        const response = await fetch(
-          'http://localhost:3000/api/order/verify-order',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(session),
-          }
-        );
+    if (!query) navigate("/");
 
-        const data = await response.json();
-        if (!response.ok) {
-          setIsLoading(false);
-          setErrorMsg(data.message);
-        } else {
-          setIsPaymentVerified(data.verified);
-          setOrder(data.data);
-          setIsLoading(false);
-        }
-      } catch (err) {
-        console.log(err);
-        setIsPaymentVerified(false);
-        setIsLoading(false);
-      }
+    const verifyOrder = async () => {
+      const session = {
+        sessionId: query,
+      };
+
+      const result = await fetchData(`${url}/api/order/verify-order`, {
+        method: "POST",
+        body: session,
+      });
+      setOrder(result?.data.data);
+      setIsPaymentVerified(result?.data.verified);
+      setCartItems([]);
     };
 
     if (firstMount.current) {
       verifyOrder();
       firstMount.current = false;
     }
-  }, [query]);
+  }, [query, navigate, setCartItems, fetchData, url]);
 
   return (
     <>
-      {isLoading && <p>Processing order....</p>}
-      {errorMsg && <p>{errorMsg}</p>}
+      {isLoading && <ConfirmationSkeleton />}
+      {errorMsg && <p>{errorMsg.toString()}</p>}
       {isPaymentVerified && order && user && (
-        <div className="card confirmation-container">
-          <div className="order-information">
+        <div className='card confirmation-container'>
+          <div className='order-information'>
             <h3>Thank you for your order!</h3>
             <p>Hi, {user.firstname}</p>
             <p>Your order has been confirmed and will be shipped soon.</p>
           </div>
           <hr />
-          <div className="order-details">
+          <div className='order-details'>
             <h4>Order details</h4>
             <p>
               Order number: <span>{order.order_id}</span>
@@ -80,10 +68,10 @@ const ConfirmationPage = () => {
           <hr />
           <h5>Order summary</h5>
           {order &&
-            order.products.map(item => (
-              <article key={item.product_id} className=" confirmation-card">
+            order.products.map((item) => (
+              <article key={item.product_id} className=' confirmation-card'>
                 <img src={item.product_image} alt={item.product_name} />
-                <div className="order-summary">
+                <div className='order-summary'>
                   <p>
                     <span>Product: </span>
                     {item.product_name}

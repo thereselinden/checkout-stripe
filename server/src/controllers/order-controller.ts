@@ -1,17 +1,20 @@
-import { Request, Response } from 'express';
-import Stripe from 'stripe';
-import fs from 'fs/promises';
+import { Request, Response } from "express";
+import Stripe from "stripe";
+import fs from "fs/promises";
 
-import { initStripe } from '../stripe/stripe';
-import { rootPath } from '../server';
-import { IOrder } from '../interfaces/interface';
+import { initStripe } from "../stripe/stripe";
+import { rootPath } from "../server";
+import { IOrder } from "../interfaces/interface";
 import {
   STRIPE_CONNECT_ERROR,
   ORDER_SESSIONID_ERROR,
   STRIPE_LINEITEMS_ERROR,
   STRIPE_PRICE_OBJECT_ERROR,
   ORDER_VERIFY_ERROR,
-} from '../variables/variables';
+  CUSTOMER_AUTH_ERROR,
+  ORDER_NOTHING_TO_DISPLAY,
+  ORDER_ERROR,
+} from "../variables/variables";
 
 const stripe = initStripe();
 
@@ -24,10 +27,10 @@ export const verifyOrder = async (req: Request, res: Response) => {
       return res.status(400).json({ message: ORDER_SESSIONID_ERROR });
 
     const session = await stripe.checkout.sessions.retrieve(sessionId, {
-      expand: ['line_items'],
+      expand: ["line_items"],
     });
 
-    if (session.payment_status !== 'paid')
+    if (session.payment_status !== "paid")
       return res.status(400).json({ verified: false });
 
     const lineItems: Stripe.ApiList<Stripe.LineItem> | undefined =
@@ -80,7 +83,6 @@ export const verifyOrder = async (req: Request, res: Response) => {
 
     res.status(200).json({ verified: true, data: order });
   } catch (err) {
-    console.log('catch verify order', err);
     res.status(400).json({ message: ORDER_VERIFY_ERROR });
   }
 };
@@ -99,7 +101,7 @@ const saveOrder = async (order: any, sessionId: string) => {
     orders = JSON.parse(fileContent);
 
     // if order number already exist, return (if refresh page on confirmation page)
-    if (orders.some(order => order.order_id === sessionId)) return;
+    if (orders.some((order) => order.order_id === sessionId)) return;
   }
 
   orders.push(order);
@@ -112,9 +114,7 @@ export const getOrders = async (req: Request, res: Response) => {
     const customer = req.session?.id;
 
     if (!customer)
-      return res
-        .status(403)
-        .json({ message: 'Must be logged in for this request' });
+      return res.status(403).json({ message: CUSTOMER_AUTH_ERROR });
 
     // get orders data read file
     const dataFilePath = `${rootPath}/data/orders.json`;
@@ -122,18 +122,18 @@ export const getOrders = async (req: Request, res: Response) => {
     const fileContent = fileData.toString();
 
     if (fileContent.length < 1)
-      return res.status(200).json({ message: 'No orders available' });
+      return res.status(200).json({ message: ORDER_NOTHING_TO_DISPLAY });
 
     const orders: IOrder[] = JSON.parse(fileContent);
 
     // filter orders data
     const filteredOrders = orders.filter(
-      order => order.customer.id === customer
+      (order) => order.customer.id === customer
     );
 
     res.status(200).json({ orders: filteredOrders });
   } catch (err) {
-    console.error('err get orders', err);
-    res.status(400).json({ message: 'Could not get orders' });
+    console.error("err get orders", err);
+    res.status(400).json({ message: ORDER_ERROR });
   }
 };

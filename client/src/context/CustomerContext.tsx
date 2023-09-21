@@ -5,21 +5,27 @@ import {
   useContext,
   useEffect,
   useState,
-} from 'react';
-import { useNavigate } from 'react-router-dom';
+} from "react";
+import { useNavigate } from "react-router-dom";
 
-import { ICustomerContext, ILoginForm, IUser } from '../interfaces/interfaces';
+import { ICustomerContext, ILoginForm, IUser } from "../interfaces/interfaces";
+import useFetch from "../hooks/useFetch";
 
 export const CustomerContext = createContext<ICustomerContext>(null as any);
 
 export const useCustomerContext = () => useContext(CustomerContext);
 
 const CustomerContextProvider = ({ children }: PropsWithChildren) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [user, setUser] = useState<IUser | null>(null);
+
+  const url = import.meta.env.VITE_BASE_URL;
+
+  const {
+    fetchData,
+    data: user,
+    error: errorMsg,
+    isLoading,
+  } = useFetch<IUser>();
 
   const navigate = useNavigate();
 
@@ -28,81 +34,35 @@ const CustomerContextProvider = ({ children }: PropsWithChildren) => {
   }, [isModalOpen]);
 
   useEffect(() => {
-    const isAlreadyLoggedIn = async (): Promise<void> => {
-      setIsLoading(true);
-      setErrorMsg(null);
-      try {
-        const response = await fetch(
-          'http://localhost:3000/api/customer/authorize',
-          {
-            credentials: 'include',
-          }
-        );
-        const data = await response.json();
-        if (response.ok) {
-          setUser(data);
-          setIsLoggedIn(true);
-          setIsLoading(false);
-        } else {
-          setIsLoggedIn(false);
-          setIsLoading(false);
-        }
-      } catch (err) {
-        setErrorMsg((err as Error).message);
-        setIsLoading(false);
-      }
-    };
-    isAlreadyLoggedIn();
+    fetchData(`${url}/api/customer/authorize`, {
+      method: "GET",
+      credentials: "include",
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const login = async (credentials: ILoginForm): Promise<void> => {
-    setIsLoading(true);
-    setErrorMsg(null);
-    try {
-      const response = await fetch('http://localhost:3000/api/customer/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(credentials),
-        credentials: 'include',
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        setUser(data);
-        setIsLoggedIn(true);
-        toggleModal();
-        setErrorMsg(null);
-      } else {
-        setErrorMsg(data.message);
-      }
-      setIsLoading(false);
-    } catch (err) {
-      setErrorMsg((err as Error).message);
-      setIsLoading(false);
-    }
+  const login = async (formData: ILoginForm): Promise<void> => {
+    const result = await fetchData(`${url}/api/customer/login`, {
+      method: "POST",
+      body: formData,
+      credentials: "include",
+    });
+    if (result) toggleModal();
   };
 
   const logout = async (): Promise<void> => {
-    try {
-      await fetch('http://localhost:3000/api/customer/logout', {
-        method: 'POST',
-        credentials: 'include', /// varför detta?
-      });
+    await fetchData(`${url}/api/customer/logout`, {
+      method: "POST",
+      credentials: "include",
+    });
 
-      setUser(null);
-      setIsLoggedIn(false);
-      navigate('/');
-    } catch (err) {
-      console.log(err);
-      console.log((err as Error).message);
-    }
+    navigate("/");
   };
 
   return (
     <CustomerContext.Provider
       value={{
         login,
-        isLoggedIn,
         errorMsg,
         isLoading,
         user,
