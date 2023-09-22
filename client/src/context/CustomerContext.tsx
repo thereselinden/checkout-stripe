@@ -32,8 +32,6 @@ const CustomerContextProvider = ({ children }: PropsWithChildren) => {
     isLoading,
   } = useFetch<IUser>();
 
-  console.log("user contetxt", user);
-
   const navigate = useNavigate();
 
   const toggleModal = useCallback(() => {
