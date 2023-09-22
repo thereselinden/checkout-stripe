@@ -28,56 +28,5 @@
       }
     ],
     "amount_total": 64640
-  },
-  {
-    "order_id": "cs_test_b1MHFDwLgF59bDw8FspGZlSPKvFamI3ivRkOUXEshKxPCV8AtWkqwaBBy6",
-    "created": 1694717555,
-    "customer": {
-      "id": "cus_OcirphVqAo2hyE",
-      "name": "Test Test",
-      "email": "test@test.se"
-    },
-    "products": [
-      {
-        "product_id": "prod_OZqMlDeukD4OGI",
-        "product_name": "Reloj T05",
-        "product_image": "https://files.stripe.com/links/MDB8YWNjdF8xTm1YOUhKTTdyVEljbFh2fGZsX3Rlc3RfeGJnU1lrUDFjVUdiMFBDUjlOVFJPOXFT00H5qnKX0b",
-        "price": 22950,
-        "quantity": 1,
-        "discount": 0,
-        "total_price": 22950
-      }
-    ],
-    "amount_total": 22950
-  },
-  {
-    "order_id": "cs_test_b1zZbrYcVmc2sg2DzKMd0i9QKyCuooCVlEfG88TK3Hla2YIdMnY1T5xtth",
-    "created": 1694718312,
-    "customer": {
-      "id": "cus_OcirphVqAo2hyE",
-      "name": "Test Test",
-      "email": "test@test.se"
-    },
-    "products": [
-      {
-        "product_id": "prod_OZlQlmP9JtrZ9u",
-        "product_name": "Reloj T03",
-        "product_image": "https://files.stripe.com/links/MDB8YWNjdF8xTm1YOUhKTTdyVEljbFh2fGZsX3Rlc3RfZVg4b2pqcURORUFhY0JJT0hOYWhFR0hC00sHMIVWga",
-        "price": 24900,
-        "quantity": 1,
-        "discount": 0,
-        "total_price": 24900
-      },
-      {
-        "product_id": "prod_OZh8VsjBwAmNPq",
-        "product_name": "Reloj T12",
-        "product_image": "https://files.stripe.com/links/MDB8YWNjdF8xTm1YOUhKTTdyVEljbFh2fGZsX3Rlc3RfanVPdU1OdzRPbDVHZUZ4cTlUVXEzNDJU00gg9Rk1Oz",
-        "price": 29900,
-        "quantity": 1,
-        "discount": 0,
-        "total_price": 29900
-      }
-    ],
-    "amount_total": 54800
   }
 ]
