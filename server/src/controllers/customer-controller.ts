@@ -62,8 +62,6 @@ export const register = async (req: Request, res: Response) => {
       });
     }
 
-    // TODO kolla att stripe reg gick bra
-    console.log("stripecustomer", stripeCustomer);
     if (!stripeCustomer?.id)
       return res.status(400).json({ message: CUSTOMER_STRIPE_ERROR });
 
@@ -81,7 +79,6 @@ export const register = async (req: Request, res: Response) => {
     console.log(err);
     res.status(400).json({ message: CUSTOMER_ERROR });
   }
-  // res.status(201).json({ message: 'Customer register' });
 };
 
 export const login = async (req: Request, res: Response) => {
@@ -94,7 +91,6 @@ export const login = async (req: Request, res: Response) => {
 
     const users = JSON.parse(fileContent);
 
-    // see if email is an registered user
     let registeredUser: IUser = users.find(
       (user: IUser) => user.email === email
     );
@@ -108,7 +104,6 @@ export const login = async (req: Request, res: Response) => {
       return res
         .status(404)
         .json({ message: CUSTOMER_LOGIN_CREDENTIALS_ERROR });
-    //.json(CUSTOMER_LOGIN_CREDENTIALS_ERROR)
 
     const user: IUserWithoutPass = {
       id: registeredUser.id,
