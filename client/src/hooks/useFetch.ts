@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 type Credentials = "include" | "same-origin" | "omit";
@@ -17,15 +18,14 @@ interface FetchResult<T> {
 }
 
 const useFetch = <T>() => {
-  //const [url, setUrl] = useState("");
   const [result, setResult] = useState<FetchResult<T>>({
     isLoading: false,
     error: null,
   });
 
+  const navigate = useNavigate();
   const fetchData = async (url: string, options: RequestOptions) => {
     setResult({ isLoading: true });
-    //setUrl(url);
     try {
       const response = await fetch(url, {
         method: options.method ? options.method : "GET",
@@ -46,15 +46,12 @@ const useFetch = <T>() => {
         data,
       };
     } catch (error: any) {
+      if (error.message === "Failed to fetch") {
+        navigate("/404");
+      }
       setResult({ error: error.message.toString(), isLoading: false });
     }
   };
-
-  // useEffect(() => {
-  //   if (url) {
-  //     setResult({ isLoading: false, error: null });
-  //   }
-  // }, [url]);
 
   return { fetchData, ...result };
 };
