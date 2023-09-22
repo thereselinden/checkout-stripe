@@ -26,7 +26,6 @@ export const totalPrice = (items: ICartItem[]): string => {
 };
 
 export const cartNumProducts = (items: ICartItem[]): number => {
-  console.log("cartItems", items);
   let cartQuantity = 0;
 
   for (let i = 0; i < items.length; i++) {
